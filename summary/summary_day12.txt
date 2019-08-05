@@ -1,2 +1,38 @@
 2019,8.5:
 	*String类型有一个split()方法，即以特定字符分割字符串，返回一个字符串数组
+	*单列集合（List/set）双列集合（Map）
+	*迭代器遍历：
+		iterator();能够获取该集合相关的迭代器对象（Iterator）
+		Iterator接口，hasNext,next,remove
+		listIterator();
+		获取迭代器对象：
+		Iterator it = list.iterator();//多态，返回的是list的类型
+		增强for循环本身也属于迭代器遍历，故若在遍历的同时，又要对现在的集合进行操作，
+		会出现并发异常（迭代器对象与list所对应的对象同时操作同一个集合）
+		
+		ArrayList集合有自己特定的迭代器对象ListIterator,此类有关于list操作的方法	
+    *Lambda遍历：list.forEach(Consumer);
+		*只有一个抽象方法的接口（Consumer）在jdk1.8中被称为函数式接口
+	
+	*LinkedList类：底层实现是双向链表；增删快，查找慢，ArrayList集合底层是数组特点与之相反
+	
+	*Set（接口）集合，无序（添加的顺序与取出的顺序不要求一致）并且不可重复，允许Null值，Set集合的底层实现是Map
+		Set接口：不支持索引操作集合；没有特有方法（即它跟其上层接口Collection里的抽象方法一样）
+		HashSet类：对应的底层实现是HashMap的key,而key的底层是哈希表
+		增：add();
+			问：HashSet集合是如何保证元素不可重复？
+			答：根据哈希值判断两个元素是否相同，如果不同则是不同元素，如果哈希值相同（hashCode产生的），还要
+			通过equals方法判断两个元素是否相等；如果自定义的类中重写了生成哈希值的方法（hashCode）
+			和equals方法，则按照重写的规则进行比较
+			
+			注意：如果要重写自定义类中的hashCode方法，最好也重写equals方法；重写规则在hashCode
+			方法中，由哪些数据参与产生了哈希值，就在equals方法中根据这些数据做判断（这些数据用equals
+			作比较）
+		
+		删：remove();
+		改：直接修改对象的属性即可
+		查：迭代遍历查询：
+			*增强for循环
+			*迭代器遍历：如上
+			*Lambda遍历
+	
