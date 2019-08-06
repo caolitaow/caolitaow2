@@ -1,0 +1,105 @@
+2019,8.6:
+	*(int)Math.random()*33+1实际上是（int）Math.random()再乘以33即一直都是0*33+1=1；
+	*双列集合无法用根接口(即不能用迭代器遍历)
+	
+	*TreeSet类：是Set接口的实现类，底层实现是二叉树（平衡二叉树），无序不可重复
+	*但是该集合能够对自身存储的元素进行排序，排序依据是ComParable接口中的compareTo方法，
+	*只能将实现了Comparable接口的实现类的对象保存至TreeSet集合中*（重点）
+		**Comparable接口：此接口让其子实现类具有自我排序性
+			int compareTo(Object o)
+		
+		TreeSet集合中不能添加不同引用类型的数据；
+		TreeSet的集合对象会对集合元素默认进行自然排序（字典排序（除了字母之外的字符还没试））
+		
+		TreeSet集合保证元素不可重复的依据是Comparable接口中的compareTo方法
+		若compareTo方法中返回0则表示比较的两个元素相等，只保留其中一个元素
+		返回非0,TreeSet集合就认为这两个元素不等	
+		
+		SortedSet是个接口
+		
+		**Comparator接口：此接口比Compareable接口的优先级高（即若构造TreeSet集合时实现了此接口（并作为实参传给了TreeSet构造器）
+		就按照此接口里的规则比较排序，若没有则按照TreeSet集合里元素对应的类实现的Comparable接口
+		里的规则进行同类对象的比较）
+			int compare(Object o1,Object o2)
+		
+	*Map集合：双列集合：集合中的元素是K，V成对出现
+		1.键集:将Map集合的所有Key转化成Set集合(keySet())，遍历Set集合获取每一个Key,然后根据该Key获取Map
+		集合对应的Value;
+		2.值集：将Map集合的所有Value转化成Collection集合(values())，不能根据Value来获取Key
+		3.键值集：将Map集合的所有元素转化成Set集合（调用entrySet()），该Set集合中的每个元素
+		都是Map.Entry类型；Entry表示的是一对键值对
+		
+		*value remove(Key);//移除键值对，并返回移除的Value;
+	    *put(K,V)若键存在则重新赋值，否则就新生成一个键值对
+		
+		HashMap:HashSet
+		TreeMap:TreeSet
+		
+	11.Hashtable 双列集合，不允许空键空值,线程安全的集合
+	12.Properties类：双列集合；继承自Hashtable<Object,Object>;
+		此类常用于在程序中获取或者存储与该程序相关的配置信息
+		常用方法：setProperty(),getProperty()
+		
+		
+	泛型（泛型参数）：广泛的类型，类型参数化；<T>
+		自定义泛型：没指定泛型时默认为Object类型（向上隐式转换）
+		1.泛型类：
+			语法： class 类名<T>{
+					private T t;
+					public void setObject(T t){
+						this.t=t;
+					}
+					
+					public T getObj(T t){
+						return this.t;
+					}
+			}
+			注意：当有子类继承了泛型类，如果在泛型类上没有指定泛型参数的实际类型，则该子类
+			也必须定义为泛型类（类似抽象类）若在继承时压根没写泛型参数则JVM默认为Object类
+		
+			也可以定义带泛型参数的抽象类
+			
+		2.泛型接口：
+			语法：public interface 接口名<T>{
+					void show(T t);
+			}
+			
+			注意：当有子类实现了该泛型接口后，如果没有指定泛型参数的实际类型，则该子类也必须定义
+			为泛型类
+			
+		3.泛型方法：
+			1.实例方法：
+			    下面的T也可以是其他标识符（可以跟形参的T不同）
+				 泛型方法是为让传的形参类型多样化
+				权限修饰符 <T> 返回值类型 方法名(T t){
+					
+				}
+			2.类方法：
+				1.静态方法中不能直接使用泛型类上的泛型参数；否则需要将该方法也定义为泛型方法
+				，让其泛型参数与泛型类上的泛型参数一致即可；(因为类方法随着类加载而加载，要想调用类方法
+				必须先确定类，要想确定类，必须先指定泛型，就必须先创建对象
+				)
+				
+				语法：
+				权限修饰符 static 返回值类型 方法名(T t){
+				
+				}
+				
+		4，为什么使用泛型？
+			将异常出现的时期从运行期变到编译期（错误提前）比如：
+			List list = new ArrayList<>();
+			list.add("hello");
+			list.add(10);
+			list.add(Student);
+			
+			for(Object o : list){
+				String s = (String)o;//编译时没报错，运行时并不是每一个类型都能强转为String
+									//所以运行时报错，但当提前指定泛型时，10和Student在编译时就报错
+									//即强转的时候还是用实际类型强转不是用向上转换的Object类型强转
+			}
+			
+		
+		
+		
+		
+		
