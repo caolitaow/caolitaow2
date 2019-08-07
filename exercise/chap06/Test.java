@@ -6,13 +6,14 @@ package advanced;
 public class Test {
     //Comparator是一个独立的接口不是TreeSet类中的成员，只是按照实现了这个接口的子类规定
     //的规则比较排序
-    TreeSet<Teacher> tree = new TreeSet<>(new Comparator<Teacher>() {
+    /*TreeSet<Teacher> tree = new TreeSet<>(new Comparator<Teacher>() {
         @Override
         public int compare(Teacher o1, Teacher o2) {
-            return 0;
+            return 1;
         }
-    });
+    });*/
 
+    TreeSet<Teacher> tree = new TreeSet<>();
     public TreeSet<Teacher> getTree() {
         return tree;
     }
@@ -28,7 +29,7 @@ public class Test {
 
 }
 
-class  Teacher{
+class  Teacher implements Comparable{
     int age;
     int height;
 
@@ -38,4 +39,12 @@ class  Teacher{
     }
 
 
+    @Override
+    public int compareTo(Object o) {
+        return 1;
+    }
+
+    public static void main(String[] args) {
+
+    }
 }
