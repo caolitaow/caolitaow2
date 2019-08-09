@@ -1,0 +1,52 @@
+2019,8.9:
+	*System.out,System.in,System.err（标准输出/输入/错误流）
+	*new BufferedReader(new InputStreamReader(System.in))
+	*List,Set,Map中只有List集合有索引
+Exception:
+	
+	*异常：在java语言中的异常指的是程序在编译或运行中出现问题以致程序终止运行的现象称为异常
+	*Bug:虫子	
+
+    *异常的分类：Exception,error
+	Exception:可修复的错误；
+		1）受检异常：编译时的异常 除了RuntimeException以外其他的异常就是编译异常
+			ClassNotFoundException
+			InstantiationException
+			IOException
+			
+		2）非受检异常：编译通过了，但运行时没通过出现异常
+			RuntimeException:运行时异常类，该类的所有子类都是运行时异常类
+			ArithemticException
+			NullPointerException
+			ArrayIndexOutOfBoundsException
+			
+		3）1/0.0运行正常，结果为 Intinity(正无穷)
+	
+	error:不可修复的异常；java中的错误有可能导致硬件损坏
+	
+	*异常的处理：
+		1）在方法上声明【抛出】异常，main方法抛出的异常给JVM，JVM把异常抛给用户了（打印在控制台上显示给用户）
+			*受检异常在方法抛出之后，该方法的执行者在执行该方法时能检测到异常，并且做出处理；
+			
+			*运行时异常在方法上抛出之后，该方法执行者检测不到异常
+		
+		2）try...[[catch...]*]【正则表达式】,finally
+			*捕获处理异常后，接着执行下面的代码（异常被用户处理了，编译通过）
+			*逻辑上遵循谁调用了谁处理异常
+			*catch块可以有多个，可以进行针对性的处理不同的异常，但是对于有子父类继承关系的异常
+			一般先让子异常类处理，再由父类处理（即父异常类处理过的异常不能让相应的子异常类再处理一遍）
+			
+			finally{}一定执行的代码块 如果三种代码块中都有return语句，不管有没有异常发生，都会执行
+			finally中的return；如果finally中没有return，而try{}中有return语句则先挂起这里的return语句
+			等执行完finally{}后再执行刚挂起的return语句，要是finally{}里也有return语句则直接执行，
+			结束方法，不再执行挂起的return（更不要说try{}中的其他语句）
+			
+		   总结：控制台自动显示的异常是JVM默认
+			
+	JVM在执行代码时碰到异常时，会自动创建一个相应类型的异常对象抛给【方法后声明（throws）了异常，即告诉JVM此代码所在的地方（一般是方法）
+	不处理该异常】这段代码的调用者【一般指上级方法】，根据业务逻辑最终抛给处理异常的地方（方法），
+	如果都不处理JVM就打印给用户看，供用户处理
+	
+	*自定义异常：
+		1）两种形式：继承Throwable类，但是不推荐；继承Exception类，自定义的是受检异常（编译异常）
+					 继承RuntimeException，自定义的是非受检异常（运行异常）
