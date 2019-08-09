@@ -1,0 +1,58 @@
+2019,8.8:
+	*泛型通配符<?>通常用于代替未知的一种或几种泛型参数，即其只能用作引用的参数
+	如Student<?> s,"必须写在类后面"
+
+反射：
+	<init>()指的是无参构造器(控制台异常里表示无参构造器的形式)
+	
+	*通过类的镜像【Class对象】创建该类的对象，注意，通过此方式创建该类的对象，必须在该类中定义
+	无参构造器(默认的或者自己显式定义) Class对象.newInstance()【newInstace()方法里的形参就是有参构造器
+	的形参，】;
+	
+	*通过反射技术调用类的构造器创建该类的对象  Constructor<?> c = Class对象.getConstructor();
+		(可变长参数列表底层就是可变长数组)	   
+											   Class对象.getConstructor(double.class int.class)
+											   
+											   c.newInstance(1.0,2);【这里才真正创建对象】
+											  
+	*获取类所有的公共构造器					   Constructor<?>[] cs =Class对象.getConstructors(); 
+	*获取类中所有(只要声明过就行)的构造器      Constructor<?>[] cs =Class对象.getDelcaredConstructors(); 
+	
+	*类中的成员变量在java的反射体系中用Field类来描述：可以通过Class对象【镜像】来获取与之相关
+	联的成员（类似）：
+		Field[] fileds = Class对象.getFileds();//能返回Class对象与之关联的类及其与之关联的类的所有父类中的public修饰的
+		成员变量
+		
+		getDelcaredFields()只能获取本类中的所有成员变量
+		Field filed = Class对象.getDelcaredField(String name)获取本类中指定的成员变量
+		filed.setAccessible(true);
+		
+		注意：使用反射技术在访问类中的非public修饰的数据【成员变量，实例方法，类方法等】时，必须使用"暴力访问",通过该数据
+		所对应的反射体系中的类的对象调用setAccessible(true)方法来获取访问权限；
+		
+		getMethods()能获取本类和超类（父接口）的所有公共方法
+		
+		Method[] methods =Class对象.getDelcaredMethods();获取本类中所有声明过的方法
+		
+		Method method = Class对象.getDelcaredMethod("方法名",方法形参类型)如("teach",String.class)
+		
+		method.invoke(Object x, Object... z);调用x对象中的方法，传递的参数为z(若该方法没有形参，就不传)
+		
+		method.invoke(null,object... z);调用该类的静态方法，所以不用传对象用null就行
+		
+		Class<?> t =Class对象.getSuperclass();只能获取直接父类（间接的类不行）
+		
+		Class<?>[] ts = Class对象.getInterfaces();只能获取所有直接接口（同上）
+		
+	*使用反射技术操作类中的数组：
+		Object o = Array.newInstace(Class<?> ,int...)动态创建数组，可指定数组类型和维度
+		Array.get(Object,index)
+		Class类能被继承吗？
+		Class类被final修饰不能被继承
+		
+		练习：定义Student(name,age)类，创建该类对象从键盘输入赋值对象的属性，(以上操作用反射完成)添加到list集合中【见Reflect.java】
+		
+		
+		
+	
+	
