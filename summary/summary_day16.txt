@@ -9,7 +9,8 @@ Exception:
 
     *异常的分类：Exception,error
 	Exception:可修复的错误；
-		1）受检异常：编译时的异常 除了RuntimeException以外其他的异常就是编译异常
+		1）受检异常：编译时的异常 除了RuntimeException以外其他的异常就是编译异常、
+					 需要马上处理【要么抛出，要么处理】否则编译不通过，运行不了
 			ClassNotFoundException
 			InstantiationException
 			IOException
@@ -19,7 +20,7 @@ Exception:
 			ArithemticException
 			NullPointerException
 			ArrayIndexOutOfBoundsException
-			
+			IllegalThreadStateException
 		3）1/0.0运行正常，结果为 Intinity(正无穷)
 	
 	error:不可修复的异常；java中的错误有可能导致硬件损坏
@@ -46,7 +47,7 @@ Exception:
 			
 	JVM在执行代码时碰到异常时，会自动创建一个相应类型的异常对象抛给【方法后声明（throws）了异常，即告诉JVM此代码所在的地方（一般是方法）
 	不处理该异常】这段代码的调用者【一般指上级方法】，根据业务逻辑最终抛给处理异常的地方（方法），
-	如果都不处理JVM就打印给用户看，供用户处理
+	如果都不处理JVM就打印给用户看【自动执行printStackTrace()打印在控制台上】，供用户处理
 	
 	*自定义异常：
 		1）两种形式：继承Throwable类，但是不推荐；继承Exception类，自定义的是受检异常（编译异常）
