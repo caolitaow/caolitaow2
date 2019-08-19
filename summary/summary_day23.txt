@@ -1,0 +1,15 @@
+2019,8.18:
+	*在读文件进行写操作后，需手动刷新flush()，关闭流对象，若不刷新，文件内容写不进去【显示不出来】
+	
+	*若源文件用GB2312格式编码，则idea也要用此编码格式才能保证写在count.txt文件上得结果
+	 不乱码 即源文件以编码格式1转换成字节流保存在底层，读取字节流打印时也要用同样的编码格式转换成文本
+	 打印显示，否则就会乱码
+	 
+	*utf8：一个中文占三个字节，一个英文字符占两个字节
+	
+	*InvalidClassException：非受检异常
+		advanced.Students; local class incompatible: stream classdesc serialVersionUID = 4704862889299976288, 
+		local class serialVersionUID = 8340488869197995916
+	
+	*有些运行异常并非自己的逻辑有问题而是由用户产生的不可控的问题，此时可手动捕获异常并处理
+	从而保证程序继续运行

@@ -1,0 +1,36 @@
+2019,8.16:
+	字符流：Reader和Writer，抽象类：只是定义了一些共性方法：如FileReader,FileWriter等
+		1.OutputStreamWriter和InputStreamReader:桥流，转换流；
+		  
+		  
+		  行分隔符：maxos:\r linux/unix:\n windows:\r\n 
+		  
+		  String lineSeparator = System.getProperty("line.separator");//获取系统的分隔符
+		2.FileWriter和FileReader能够直接操作文件
+		
+		3.BufferedWriter和BufferedReader:带缓冲区的字符流，不能直接操作文件
+			1.BufferedWriter有一个特有方法：newLine()加上一个换行符，实现换行	
+			
+			2.BufferedReader有一个特有方法: readLine()；一次读一行但读取不到换行符
+		
+		练习：使用上述的字符流完成文本文件的拷贝
+		
+		String csn ：java源码中，形参是csn，表示字符集名
+		
+		4.PrintStream和PrintWriter：前者字节流，后者字符流
+		：system.out.print();out就是PrintStream的对象
+	
+	随机【任意】读写流：想在哪读写就在哪读写，其他为顺序读写流
+		RandomAccessFile,该流只能用于读写文件；该流使用的场景是多线程下载和多线程拷贝
+		
+		void seek(long pos);跳过pos个字节在向文件中写入
+		void setLength(long newLength):
+		多个操作者在同一个文件里操作
+		
+		如果通过seek方法跳过指定的字节后向文件中写入数据时，如果跳过的后面有字节，写的时候会将原来的数据
+		覆盖掉
+		练习：用这个读写流实现拷贝，并且用上多线程实现边读边写
+
+第十二章：网络编程：
+	1.网络：
+	

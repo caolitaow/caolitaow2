@@ -1,0 +1,88 @@
+2019,8.15:
+	Java中的IO流体系：
+		1.字节流：
+			由字节构成的数据队列；在程序读取或写入数据时，和硬盘建立数据传输通道
+			字节在通道中排列传输形成字节流；
+			
+		    InputStream和OutputStream是字节流最顶层的两个类，是抽象类
+				*InputStream中的方法：
+					int available(); //判断输入流中可以被读取的字节数
+					
+					void close();//关闭流并释放系统资源
+					
+					int mark(int pos);//在距离文件起始位置pos个字节处做标记
+					
+					void reset();//重置流对象到最后一次调用mark()方法的位置，如果没有做标记
+					则重置到起始位置
+					
+					int read();//从输入流中读取下一个字节；返回值就是该字节
+					
+					int read(byte[] b);//从输入流中读取数据，将读取的数据暂时存放至缓冲区b,返回值就是读取到的字节数
+										读取结束的标记是返回值为-1；
+				    int read(byte[] b, int off, int len)//将读取到的字节按len个数存入到b中
+					
+					long skip(long n); //跳过和丢弃n个字节，返回实际跳过的字节个数
+				
+				*OutputStream中的方法：
+					void close(); //关闭流并释放资源
+					void flush(); //刷新流
+					void write(byte[] b); //一次性将字节数组b中的所有数据都写出去
+					void write(byte[] b, int off, int len); //从b中的off位置开始将len个字节写出去
+					abstract void write(？);//一次将一个字节写出去
+					
+			输入输出流具体子类：
+				
+				*FileInputStream和FileOutputStream操作文件的最基础的流；
+				
+					
+					FileOutputStream(File file, boolean append);//创建输出流对象，并与某个文件关联，
+					目的是向文件【传入的File类对象】中写入数据，在创建此类对象时，如果与之关联的文件已经存在，并且append为false时，
+					则会覆盖已经存在的文件，若append为true时则会在已经存在的文件上追加内容
+					
+					只要通过FileOutputStream创建了和某个文件相关的输出流对象时，如果文件不存在就
+					重新创建文件
+					
+					fos.flush();
+					fos.close();
+			    注意：输入输出流对象在不用时，要用close()关闭流对象，释放资源，flush()只有输出流用完后
+					才调用，刷新（刷新什么？）然后再用close()关闭流对象
+					关于关闭的顺序，先开的后关
+				
+				BufferedInputStream和BufferedOutputStream:带缓冲区【不同于在使用FileInputStream时定义的byte数组】的字节输入输出流，
+				此种流能够提高效率；这种流为包装流【功能流】要与其他流一起使用
+				
+				DataInputStream和DataOutputStream也是包装流，操作基本数据类型【也能操作String】的顶层接口
+				
+					*基本数据类型直接写到文件中时，文本编辑器会将其按普通文本的形式翻译容易产生乱码
+				
+					*先将什么类型的数据写到文件中就先读该类型数据
+					
+				练习：将整数类型的10写到文件中，再进行读取
+				
+				
+		2.字符流：
+
+
+		3.java中的序列化机制：
+			序列化：将对象或者数据转化成字节流，方便传输
+			反序列化：将字节流转化成对象或数据，方便分析和处理
+			
+			相关的类和接口：
+				Serializable接口：实现了此接口的类具有序列化功能，标记接口，给实现了此接口的类一个标记
+				
+				ObjectInputStream和ObjectOutputStream【功能流】:能够将实现了Serializable接口的类的对象写到文件中或者通过网络传输
+				也能读取被写入到文件中的序列化后的对象；这两个类主要用于读取和写入
+					
+		思考：如果更新了Student类，在反序列化时会不会出问题？
+			  会出现InvalidClassException,主要原因是在序列化时保存至文件中的对象都携带有一个和该
+			  对象所属的类相关的serialVersionUID,如果更新原来的类，则该类在运行时JVM会根据类中的内容
+			  重新生成一个serialVersionUID，此时重新生成的ID和文件中保存的ID不一致，就会导致反序列化失败，并抛出该异常
+			  
+			  解决方案：固定serialVersionUID即可，可以用private,final,static等关键字修饰；或者重新序列化再反序列化
+
+总结：关于线程唤醒问题，指定了某线程做某事，建议用重写Thread类里的run()方法来做，在没有指定
+某线程做某事的情况下：两个线程用实现Runnable接口的方式较好，超过两个线程建议用继承Thread类【采用匿名内部类重写Thread里的run()】的方式
+处理问题,大体遵循这样的规则去做，实现起来较为容易
+									     
+		练习：用IO流写一个文本编辑器（要能实现自定义类对象的正常显示和写入）		
+	
