@@ -1,0 +1,22 @@
+2019,8.20:
+	UDP编程：面向无连接，不安全，数据容易丢失，效率高点
+			 UDP发送的数据会被封装成数据包，每个数据包的大小不会超过64KB 		
+	发送端、接收端
+	
+	在java中基于UDP的编程由DatagramSocket提供数据传输的两端；由DatagramPacket封装数据；
+	
+		DatagramSocket:
+			DatagramSocket(); 创建发送端的Socket对象
+			DatagramSocket(int port)创建接收端的Socket对象
+			
+			void recive(DatagramPacket p);
+			从此套接字接收数据包
+			
+			void send(DatagramPacket p);
+			从此套接发送收数据包
+			
+		DatagramPacket：
+		
+		
+	练习：接收端循环接收，发送端循环发送，每次发送的数据都来自键盘录入；
+		  一对一聊天
