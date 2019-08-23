@@ -1,0 +1,31 @@
+2019，8.22：
+	java中余数不能为负数
+	4.java8中已经提供的函数式接口
+		*Consumer接口：void accept();
+		
+		*Predicate接口: boolean test(T t);
+		
+		*Function<T,R>接口：R apply(T t); 可以用Lambda表达式给函数式接口类型的引用赋值
+		可将Lambda式看作是Function接口的子实现类	
+		
+		*Supplier<T>里面是一个无参返回值为泛型参数的方法，主要用于通过类的无参构造器创建
+		对象，例如：Supplier<Person> s0 = Person::new 【创建一个Person类的对象】
+		
+		*Compator接口
+		
+		*Optional<T> 解决空指针问题
+		
+	*5.函数式编程【链式调用】Stream接口【关于集合的流，流式计算】
+	
+		1.Stream<T>：主要用于单列集合的流式计算
+		2.中间方法：返回值是Stream接口对象的方法就是中间方法filter、limit、distinct【加工Stream对象】；
+		
+		3.最终方法：返回值是null或者是其他数据类型的方法；由于最终方法的返回值不是String类型
+		所以最终方法不能继续调用Stream接口中的方法,最终方法中的形参大多是函数式接口类型，即可以用
+		Lambda表达式写这个形参
+			forEach();anyMatch(),allMatch()
+			
+	byte[] bytes = new byte[100];
+	recivemessage = new String(bytes);
+	System.out.println(recivemessage.length());
+	
