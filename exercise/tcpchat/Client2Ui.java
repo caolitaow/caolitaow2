@@ -1,7 +1,6 @@
-package advanced.tcpchat.tcpchat_noui;
+package advanced.tcpchat;
 
-import com.sun.security.ntlm.Client;
-
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Client2Ui extends javax.swing.JFrame {
@@ -26,8 +25,9 @@ public class Client2Ui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
+        textArea1.setFont(new Font("宋体",Font.PLAIN,15));
+        textArea2.setFont(new Font("宋体",Font.PLAIN,15));
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
 
         textArea2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {

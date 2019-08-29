@@ -1,5 +1,6 @@
-package advanced.tcpchat.tcpchat_noui;
+package advanced.tcpchat;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Client1Ui extends javax.swing.JFrame {
@@ -23,7 +24,8 @@ public class Client1Ui extends javax.swing.JFrame {
     private void initComponents() {
 
 
-
+        textArea1.setFont(new Font("宋体",Font.PLAIN,15));
+        textArea2.setFont(new Font("宋体",Font.PLAIN,15));
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         /*textArea1.addKeyListener(new java.awt.event.KeyAdapter() {
