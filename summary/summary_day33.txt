@@ -1,0 +1,14 @@
+2019,8.30:
+	#掌握JDBC连接池的使用
+	
+	
+	@IDEA中不同的项目编码是独立的，一个项目编码的更改不影响另一个项目的编码规则
+	
+	@java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '4' for key 'PRIMARY'
+	【非受检异常】
+	
+	@Integer对象的哈希值是跟自身的值相等，而Set集合的“无序”【无序是相对的】其实是根据元素的哈希值排序的，
+	所以可以利用这一点进行整数的排序
+	
+	@RandomAccessFile对象对文件进行写操作时，其自动刷新无需手动flush或者改布尔类型的标志值
+	

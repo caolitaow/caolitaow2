@@ -1,0 +1,70 @@
+2019,9.3:
+
+	#安装好Linux_server，学习ssh和ftp传输协议
+	
+	@所谓后台进程就是开机时随系统一起加载执行的程序，一般开机自启动也称为守护进程
+	
+	@whereis [command] 查找该命令所对应的可执行文件的位置
+	
+	@telnet,ssh远程连接计算机；ssh ip 基于当前的用户身份进行远程连接
+							   ssh 远程主机用户的名字@ip
+	telnet没有加密
+	
+	@echo shell中的打印语句
+	
+	@sudo以管理员身份运行
+	
+	@whoami显示当前用户名
+	
+	@/var 管理员相关的内容【包括命令等】
+	
+	@/etc/passwd 用户信息【普通用户共享，不包含密码】
+	
+	@lost+found 文件夹【可以帮助恢复突然中断程序的数据】
+	@media：存放挂载第三方硬件的文件【驱动程序】
+	
+	@proc存放的是有关后台进程信息的文件
+	
+	@ps -A |grep apt
+		kill -9 进程id
+	@logout:退出之后再切换其他用户登录就换不了了
+		exit:常用用于切换用户
+	
+	命令组成：命令关键字  [选项]  参数【一般都是路径】 
+	Liunx用户管理的命令：命令关键字  [选项]  参数【一般都是路径】用户名
+	
+	@想要远程登录某台主机，则远程主机得有相应得远程服务即需要对应的提供远程服务的软件
+	
+	clt:x:1001:1001::/home/clt:
+	briup:x:1000:1000:briup,,,:/home/briup:/bin/bash
+	用户名:密码:UID:组id:用户的描述信息:家目录:当前默认使用的shell
+	
+	UID用于计算用户权限
+	
+	@/bin/false; /usr/sbin/nologin;【表示当前用户身份不允许登录，而安装某些服务需要用户身份】
+	
+	@/etc/shadow: 密码存放的文件【只有管理员可以查看】
+	
+	briup:$6$SsPbhA8t$T40WN79QmqIfG5NR8D2B/Ovb1pj0Tg9fClS4LlpV3IvF.vXB/VwRe0nmXYB8hQAwLybNibvaI.YvgU2c.8boQ.:16930:0:99999:7:::
+	用户名:密码:密码设置的时间【时间戳】:设置完密码多久可被修改【0是无限修改】:密码过期时间:密码过期的警告时间【密码过期前几天提示修改密码】
+
+	@很多提供后台服务的软件安装后，需要重启计算机，服务才能开启【例如安装远程登录服务】
+	
+	@Ubuntu和CentOS大同小异，例如关于主机名的配置文件，CentOS下是在/etc/sysconfig/network 和 /etc/hosts
+													   Ubuntu下则是在/etc/hostname
+	
+	@可以通过改变用户的id和组id来改变用户的权限，command following:
+		usermod -ou X -og X 用户名       【X表示id，o选项与u,g等其他选项连着用时，应写在最前面】
+	
+	@当用户的UID相同时，看上去是合并了，但/etc/passwd里却没有合并
+	
+	@Linux默认下只有一个root用户，可以通过命令给普通用户授予root权限,即变成另一个root用户，
+	不过这个新的root用户只能由原来普通的用户名和密码登录，但显示的用户名仍是root
+	
+	@安装Ubuntu服务器版本时一般会自动根据DHCP配置网络
+	
+	@虚拟机选择桥接上网，很可能物理主机和虚拟机只能有一个可以上网，一般选nat联网
+	
+	
+	
+	

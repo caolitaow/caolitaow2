@@ -1,0 +1,28 @@
+2019,8.23:
+	*System.lineSeparator();获得系统换行符
+	Stream对象只能消费一次【遍历一次“流”里的元素后，该对象就消失了】
+	*stream.collect(Collectors.toList());将之前变成Stream对象的集合还原成集合
+	
+	并行Stream:
+	获取时间戳：距离1970年1月1日0时0分0秒0毫秒的毫秒数
+	
+	map.putIfAbsent(5,9);//如果指定的key在集合中不在，但返回的依然是map不存在的
+	键对应的值null,然后将键值添加，如果存在就不加，返回的是存在键所对应的值
+	
+	map.compute(3,(i1,i2)->i1*5+i2);
+	map.merge();
+	
+	日期：java.util.Date   java.sql.Date extends java.util.Date
+	
+	SimpleDateFormat format = new SimpleDateFormat();
+	
+	format.applyPattern("yyyy.MM.dd HH:mm:ss S");
+	
+	Date date = format.parse("2019.8.23 16:20:10 120");//将特定格式的时间字符串转换成
+	标准格式时间
+
+OOAD和设计模式：
+	OOA: Object Oriented Analysis:需求分析
+	OOD: Object Oriented Design:功能设计
+	OOP: Object Oriented Pragramming:编程实现
+	

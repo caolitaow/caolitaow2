@@ -1,0 +1,50 @@
+2019,8.27:
+	java.lang.reflect.*;
+	*Proxy:做动态代理，该类中的newProxyInstance(ClassLoader loader,Class<?>[] interfaces,
+	InvocationHandler h)
+	*可以看成是利用反射将一个类执行所需的基本功能赋予给一个叫Proxy类，让Proxy对象知道从哪加载
+	，加载了那些接口，执行哪个方法
+	
+	*使用接口类型接收代理类对象
+	
+	InvocationHandler:在动态代理的同时，能够执行原有方法以外的操作
+	
+	**SVN,Maven:
+	SVN：subversion【开放源代码的版本控制系统】TortoiseSVN中的import--推送到远程仓库
+	export，拉取远程仓库内容到本地
+	
+	所谓导出列表【VisualSVN Server里的功能】即将远程仓库下的文件【包括文件夹】名以列表的形式
+	写进一个文本文件中
+	
+	*当将本地代码导入SVN库中需要你选择Path to certificate时，点击IDEA里的Settings，选择
+	Subversion,点击Clear Auth Cache,清除自动缓存信息，就能重新登录远程SVN仓库，并导入了
+	
+	*SVNServer安装在本地，里面的文件在VisualSVN软件上能看到，但在相应的本地路径下就看不到？
+	
+	*IDEA自带的SVN里的Checkout检出相当于export即从SVN远程仓库中拉取代码到本地
+	
+	*Logger默认的级别是INFO，比INFO更低的日志将不显示【在这个包里java.util.logging.Logger】
+	
+		各级别按降序排列如下：
+			SEVERE（最高值）
+			WARNING
+			INFO
+			CONFIG
+			FINE
+			FINER
+			FINEST（最低值）
+			
+	*Logger对象有以上级别的不同日志信息，根据当前日志对象的显示级别来决定显示哪些级别的日志信息
+	Logger对象只显示不低于自身等级的信息【不包括info以下级别的日志信息】即当级别被设定成CONFIG等
+	低级别时，其也只显示INFO及以上等级的信息
+	
+	*看域名对应的IP地址的方式：
+		1、在系统的终端窗口上输入：ping 域名
+		2、利用InetAddress类的getByName("域名")或者getAllByName("域名")得到所有IP地址
+	
+
+	
+	
+	
+	
+	
