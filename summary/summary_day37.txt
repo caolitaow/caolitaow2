@@ -1,0 +1,96 @@
+2019,9.5:
+#
+	Ubuntu-server下安装svn,openssh-server
+	Ubuntu-server更换软件源【换成网易的】来尝试解决安装软件时的Package is not available
+	
+	怎么让独立的linux和windows通过ssh通信，windows下非得安装第三方软件FileZila啥的么？
+		让linux和windows之间也能通过ssh远程登录
+@
+	用shell查看文档时：spacebar 空格键向下走一屏
+					   return 【enter】向下走一行
+					   q 退出去
+					   /string 检索当前文档中的所输入的关键词
+					   
+	man -k {命令的一部分]，显示联想到的命令
+	
+	元字符：键盘敲出的任意字符，除了.和_
+	[]:方框号里选一个字符
+	
+	date:查询当前系统的时间，cal:查询日历
+	
+	*| 管道：把前面命令的结果作为后面命令的执行内容，相当于不用管道时，后面命令后跟着要操作的
+	对象
+	
+	*cat命令后面不加文件则等待键盘录入【查看大型文件一般用more,可以灵活翻页，滚动等】
+	
+	
+	*awk -F: 处理单行文本【分割，截取】
+			以:号分割文本，若是特殊符号【 ?等】则，需要用单引号引起来
+	
+	*sort [-u] filename：对文件内容排序
+		-u表示排序过程去掉重复的行
+	java可以调用Linux命令
+	*Ubuntu16.04服务器版里自带了git
+	
+	*adduser和useradd为同一命令
+	
+	*diff判断两个文件内容是否相等
+	
+	**vi屏幕分屏：
+	:split 横向切分
+	:vsplit 纵向切分
+	
+	切换光标到其他屏：ctrl+ww
+	
+	:open 路径 映入新的文件到光标所在的窗口
+	:wall 保存所有窗口的内容
+	:close 关闭光标所在的窗口【当有多个vi窗口时】
+	
+	echo [-e] [-n]输出语句
+         -e：让特殊符号生效，如\t,\n
+		 -n：剔除输出内容后的回车换行符
+		 
+	**script [-a] filename 记录用户操作【包括命令和对应的结果，相当于history的升级版】
+			-a：追加效果
+  	
+	exit 出记录模式
+	
+	*ssh-keygen生成一对ssh密钥对，默认在~/.ssh文件夹里
+	
+	*who：当前有哪些用户登录到该主机【查看有多少用户/终端远程登录】
+	
+	finger远程查询其他计算机【作为服务器】中有哪些终端连入
+	不用像who那样只能查询已登入到的计算机被多少终端连上了
+	前提：服务器有支持finger服务：
+			sudo apt-get install fingered
+		  客户端安装finger
+		    sudo apt-get install finger
+
+	**sudo su 效果跟 su root一致【如果是安装linux系统后,第一次切换到root用户且不知道root用户密码，
+	就需要用sudo su直接免密切换但用户重新登录后，就得输密码了】
+	
+	*如果更换了软件更新和下载的地方【软件源】则安装时出现Unable to locate package 软件包名
+		此时在安装前更新软件源即可：sudo apt update【upgrade主要是升级的意思】
+													
+	*一般LinuxOS默认安装了ssh客户端
+	
+	*更换vimrc需要更换/etc/vim/vimrc，或者直接在/etc/下添加vimrc 或者在~/添加vimrc,【建议加.隐藏防止误操作】
+	用户底下有配置文件，vim【命令】就用用户下配置文件的配置
+	
+	*想通过ssh登录到某台主机，这台主机就必须安装openssh-server，若不安也能和安了openssh-server
+	的主机进行文件互传
+	
+	***安装openssh-server时，可能会出现Package is not available 或者 Unable to locate 软件包名
+	此时需更换/etc/apt/sources.list，执行apt-get update更新软件源，
+	如果安装时还出现依赖找不到，就按照提示安装对应版本的软件【openssh-client=版本号】,再去安装
+	原来的软件【openssh-server】
+	安装成功后，输入 /etc/init.d/ssh status【确定服务是否开启】
+				若未开启则输入 /etc/init.d/ssh restart 开启openssh-server提供远程服务
+				
+	
+	**安装好新的软件【命令】一般不能直接用，需要配环境变量
+	
+	
+	
+	
+	

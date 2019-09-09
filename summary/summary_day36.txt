@@ -1,0 +1,91 @@
+2019,9.4:
+	
+@Linux:
+	*命令=可执行的文件
+		command分为两种内部命令，外部命令
+					可用type [command] 判断是哪种命令
+					显示[command] is a shell builtin
+					显示命令的路径名则是外部命令
+					
+	LinuxOS在执行命令时会判断该命令是哪种命令，内部命令的优先级较高，若不是内部命令则去hash table
+	里查找外部命令的路径，若也没有则在PATH所指示的环境变量中找，找到该命令则执行，找不到则报错
+	执行了一个外部命令后，该命令会被系统添加到hash table中，以便下次直接从表里找到该命令，提高执行
+	效率，可用hash查看，清空hash table可用hash -r，重新打开shell terminal也会清空hash table 
+	
+	
+	*/etc/group：包含有关用户分组的信息
+	
+	*lpadmin:x:116:slave1,[other users]
+	 组的名字:组的密码:组号:组员名
+	
+	*cd，cd~：切换到家目录
+	
+	*ls -t 按照时间对文件排序
+	*ls -l 文件列表【展示了文件的相关属性】
+	
+	
+	-rw-rw-r-- 2 clt clt
+	-：表示普通文件，能编辑
+	l：表示链接文件【快捷方式】
+	d：表示目录
+	
+	*chmod u=r a;也可以用"="给文件赋权限或者"+","-"，+权限和-权限可以连着写
+	
+	*mkdir -p ~/a/b;可以创建多级目录，没有那层目录就创建，有就不创建
+	*mkdir和touch都可以创建多个同级文件【文件和目录】
+	
+	*bashrc是bash命令的配置文件,vimrc是vim命令的配置文件即一般后面有"rc"字样的文件
+	就是该命令的配置文件，命令在执行时会首先读取用户目录中相关的配置文件，没有再执行/etc里
+	的配置文件，一般创建或修改好用户配置文件即可
+	
+	*系统配置文件一般放在/etc里，用户配置文件一般放在家目录里以隐藏文件的形式存在
+	
+	*vi与vim的配置文件都是vimrc，只不过vi是linux内置的编辑器，其默认的配置文件是/etc/vim/vimrc
+	
+	*命令在linux执行的全过程？【加载配置文件的过程】
+	
+	*Ubuntu和CentOS的vi可执行文件的位置：Ubuntu: /usr/bin/vi CentOS: /bin/vi 
+	
+	*解包：tar xvf test.tar -C 目的地
+	 打包：tar cvfz test.tar.gz filename... dir...
+	 解包：tar xvfz test.tar.gz filename... dir... -C 目的地
+	
+	*ln:
+		软链接：链接【快捷方式 ln [-s] 文件名 链接名】
+				安装软件时会产生软链接
+				
+		硬链接：又给某个文件起了个名，指向的是同一个文件 【ln 文件名 别名】
+				重要数据多起几个名字，防止误删
+				
+	注意：加入-s是软链接，不加是硬链接
+	
+	*ls -i 文件名【查看文件对应的底层块号】
+	
+	*profile:for login shell 用于交互式shell,当第一个用户登录时，该文件被执行
+	 bashrc:for non-login shell 用于非交互式shell,当 bash shell打开时，该文件被执行
+	 两种文件都用于设置环境变量
+	
+	*Linux执行可执行文件【尤指命令：系统命令[/bin]；用户命令[/sbin]；自定义命令[~/bin](可能没有)】
+	需要加载环境变量，而profile for login shell,所以先加载~/.profile【因为是先登录】，执行时判断如果bash
+	在运行则就执行用户家目录下的bashrc环境变量配置脚本，应用用户家目录下的环境变量。
+	
+	在此之前最先运行的环境变量配置脚本是/etc/profile【因为当第一个用户登录时该脚本就被执行了】接着遍历
+	执行/etc/profile.d或/etc/inputrc里的脚本，之后才是挨家挨户去执行对应的.profile，在执行.profile脚本时
+	.bashrc就能被执行了【一般.bashrc的执行被写在了.profile脚本里】，不然每打开一次shell,.bashrc才被执行一次
+	
+	总的来说，需要配置环境变量时，一般在~/.profile配置【或者~/.bashrc】，当需要让所有用户都能使用该执行文件时，就在/etc/profile配置
+	
+	*注意：有些linux版本【例如Ubuntu14.04LTS】中的/etc目录下已经没有了bashrc文件
+		    也有可能没有~/.profile文件【例如CentOS】
+	
+	其他软件/命令的配置文件也类似于上面的执行顺序，即用户家目录下有相应的配置文件则加载该文件，没有则以之前加载的/etc/下的配置文件为准
+	
+	
+	（问题：CentOS: /etc/vimrc其他地方没有vimrc，用root用户运行时，vi不会自动跳成vim去执行
+		  而其他用户下，执行vi就等于执行vim,效果一样？）
+	
+	
+	
+	
+	
+	
