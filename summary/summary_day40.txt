@@ -1,0 +1,39 @@
+2019,9.10:
+#
+	Ubuntu-server中搭建git服务器...【将windows下ssh-keygen生成的公钥，复制到了~/.ssh/auth
+	orized_keys，但以ssh协议连接失败，还显示要输入密码】，数据库服务器
+	安装好hadoop
+	ssh协议
+
+
+
+@
+	*上传到svn服务器中的文件默认是以FSFS格式压缩存储的，你在服务器对应的库里是找不到源文件的
+ 
+	*TortoiseGit/SVN里的HEAD version 表示最新版本
+ 
+    *svn中的commit和import功能类似，都是上传文件到远程仓库
+	
+	*svn中严格来说没有本地仓库，因为他创建的仓库里的文件不能进行添加，提交操作，他必须先检出
+	远程仓库到本地成为工作副本才能在里面进行添加提交操作
+	
+	*ssh-keygen只用生成一对密钥即可让不同的主机通信时免去密码认证的环节，一对密钥对应一对主机
+	而不是一对仓库【本地库和相应的远程仓库】
+	
+	*git本地仓库的更新信息经过push后，也会被同步到对应的远程仓库，例如12minutes前你就已经修改了
+	某一文件，并提交到了本地仓库中，此时你才推送到远程仓库，此时远程仓库显示的修改时间不是此时
+	而显示是12mins前做了更改
+	
+	*systemctl 可以设置linux系统服务
+	
+	**dpkg -l 查看所有安装过的软件，dpkg -l |more 可以一点一点看
+	
+	
+数据库：
+		*数据库软件【mysql】分为两部分：client【mysql】，server【mysqld】
+			*client：可以通过sql来操作数据库即mysql-server
+			*server：以表的形式存储关系型数据
+		
+		*man mysqld --verbose --help |more 可以查看mysqld命令的详细介绍，其中有好多选项可以
+		设置数据库的基本配置，如端口等，还能查看到数据库的基本配置例如，字符集，字符集目录等
+		

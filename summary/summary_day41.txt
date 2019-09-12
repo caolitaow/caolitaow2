@@ -1,0 +1,75 @@
+2019,9.11:
+#
+	*linux-server下装好mysql
+	*挂载
+	*本地mysql-client 连接远程mysql-server，操作远程数据库
+	
+	*ssh协议，http协议
+@
+	检索出含有关键字的软件包：
+	*apt-cache search all |grep xxx【linux安装软件时，应先用apt/yum/rpm等命令去搜索有关的
+	安装包，以便选择安装哪个版本】
+	
+	*apt-get install 会安装软件所需要的所有依赖的包
+	
+	*mysql-server/client:包含了mysqld/mysql的二进制文件【可执行文件】和系统数据库安装程序
+	而mysql-server/client-core:只包含了前者没有包含系统数据库安装程序
+	***若只安装后者就会导致mysqld服务开启不了，因为根本没安装上，只是装上了数据库服务器的二
+	进制文件
+	
+	*这些没有安装上的程序对应的[二进制]文件，用apt-get autoremove 并没有效果因为这是卸载在线安装的软件的命令
+对于哪些没有安装上的程序的对应文件，应用apt-get purge [packagename] 清理即可
+
+	*/usr/sbin存储的是超级用户才能管理和使用的命令，例如mysqld默认就放在这里
+	 /usr/bin存储的是普通用户的命令
+	yun.com/ubuntu/ xenial-security multiverse 
+	*linux安装某些软件时，需要提前安装好软件所需的依赖包，缺少依赖包安装时，会提示用户需要安装
+	哪些依赖包，安装好依赖包，再安装软件即可
+	
+	*apt-cache rdepends packagename 查看该包的依赖包
+	
+	*服务器版ubuntu推荐用aptitude命令下载和更新软件
+	
+	*任何显示结果的命令，几乎都能被more分屏显示即 command |more
+	
+	*不建议安装mysql-client-core和mysql-server-core，只安装内核版mysql，还需安装其他依赖包
+
+	*建议安装mysql-client【默认安装当前软件源里最新版本的软件】，这个安装包里包含了所需的各种依赖包
+	
+	*apt-get [update] [upgrade]
+			更新软件源，更新软件
+	
+	
+	**system command 可以调用系统命令例如在MySQL模式下，执行清屏：mysql>system clear
+																  mysql>clear 会换行
+																  
+	*mysql模式下按tab不会自动提示
+	
+	***sql是一种专门为了处理结构化数据的面向结果的编程语言
+	
+	*sql语句下不区分大小写
+	
+	*select 一般是查询数据库中的表，也能查询运算后的结果，有点像echo,system.out.println()等打印
+	命令/语句
+	例如：select 1+2;它是将得到的结果按照表格的形式打印在屏幕上
+	
+	*password("123");mysql的内置加密函数，加密字符串123
+	
+	*kill -9 好像杀死不了后台进程？【终止不了mysqld】
+	
+	*在更改数据库服务端的字符集时，因为数据库是安装在服务端的，所以更改了character_set_server
+	就相当于改了character_set_database的值
+	
+	**更改数据库的字符集可以在/etc/my.cnf 添加[mysqld]
+											 character_set_server=utf8
+	 在登上了mysql服务端后，客户端显示进入mysql模式：mysql>charset utf8 就能更改mysql客户端
+	 相关的字符集为utf8【这种更改也是永久生效的】
+		
+	
+	*在更改数据库自身的配置【属性】时，一般需要重启mysqld【mysql服务】，让配置生效
+	
+
+	【字符集就是按照字符编码规则翻译出来的字符的集合】
+	
+	
+	
