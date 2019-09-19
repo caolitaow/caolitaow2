@@ -1,0 +1,132 @@
+2019，9.17：
+#
+	远程登录mysql
+	挂载
+	完成数据库的题
+	
+@
+  ****不同版本不同系统中的数据库可以互相登录，只不过要修改关于mysql这个程序的配置文件
+													和修改mysql里server上的数据库mysql
+													里的user表
+  
+  *若安装数据库的过程中提示initcl:unknown job:mysql 
+	 
+	   出现这一问题，跟 mysql 没有直接关系，而是由于初始守护进程控制工具（The init daemon control tool）没有使 mysql server daemon 从  /etc/init 启动。
+	   可以在终端键入如下命令手动恢复：
+			cd /etc/init
+			mysqld
+	   手动开启mysql.service
+
+  【查看文件推荐使用less】
+  *shell> less filename 查看文件比more filename好用，因为less支持上下滚动页面
+  	   
+  *mysql> pager more 对查询结果分页显示，只支持向下滚动页面
+   
+   mysql> pager less 对查询结果分页显示，向上向下滚动页面均支持【推荐使用，尤其是
+   在无图形界面的情况下，该命令和\G结束的sql语句在mysql模式下一起使用，方便查看；还支持
+   关键字检索等】
+   
+  *运行.sql文件：将.sql文件放入将登录mysql-server的路径下；
+				 登录mysql-server，创建数据库【若.sql文件没写创建数据库的语句】
+				 进入数据库，执行.sql文件：source XXX.sql；
+				 
+				 
+  *select id, case
+			  when last_name='Patel' then 'ok'
+			  when last_name='Smith' then 'no'
+			  else 'go...'
+			  end name【别名】
+		from s_emp;
+	
+	case与end 对应是一个整体
+  
+  *\转义
+  
+  *lower(),upper() 转换大小写；concat()拼接字符串；substr()截取字符串；length()获取字符串长度
+  
+  *subdate()可以获得指定时间的前多少天是几号
+  
+  *adddate()获得指定时间的后多少天是几号
+  
+  *datediff()两个时间相差多少天，例如：datediff('2019-09-15','2019-09-30');//-15
+  
+  *week(now())当前时间是这一年的第几周
+  
+  *date_format() 将时间转换为特定格式的字符串
+  
+  *str_to_date('20190909','%Y %m %d') 将字符串转换为标准时间
+  
+  **对字符串内容加密和解密
+  
+  以'key'形式加密，则需要以'key'形式解密
+  
+  加密：aes_encrypt('hello','key');
+  解密：aes_decrypt('加密后的字符串','key');
+  
+		encode(),decode()与上述用法一致
+
+        password('')【推荐使用】
+  
+  
+  
+  ***from 
+	 where
+	 group by
+	 having 
+	 order by
+	 limit
+  
+  **执行顺序：
+	from->where->group by->order by->having->limit
+	
+  distinct 去重操作 例如: select distinct last_name,salary from s_emp;
+  是对distinct后面列值的组合进行去重【lisi,1000;lisi,1200这样不去重】
+  
+  查询员工信息，先按薪水降序排序，再按名字升序排序【默认是升序】
+  select last_name,salary from s_emp order by salary[2] desc,last_name[1];
+												
+  order by 后的列可以用数字表示
+  
+  
+  select * from s_emp,s_dept; 查询的是两张表的笛卡儿积，多表查询起别名比较好
+  
+  *注意sql语句中列名之间用,隔开，用空格符隔开就成了起别名了
+  
+  **登上数据库其实分为两步：
+							1.首先要能登录到mysql-server【windows：修改my.ini
+							  里的bind-address让本机能登录到服务端程序
+							  linux：修改my.cnf[这里具体指的是关于mysqld下bind-address的修改]】
+							  
+							  #注释掉bind-address所在一行即可，即允许任何主机登录到该
+							  mysql-server
+							
+							2.其次要给mysql中的user表中添加一条记录，其中Host='%'[代表任意主机]，
+							  User='root'【让本机能登到mysql-server里的database上】
+							  **注意：不要直接用update 将Host = 'localhost' 改成
+							           Host='ip'这样当下次登录数据库时，只能该ip对应的
+									   主机能连数据库了，本地登不进去了，应该:
+									   create table XXX as select * from user where Host='localhost';
+									   update XXX set Host = '%' where Host='localhost';
+									   insert into user select * from XXX where Host='%';
+							 
+
+	***注意：mysql5.7之前的版本，想修改mysql-server【mysqld】的配置文件，直接在
+		  /etc/mysql/my.cnf上修改即可
+		  
+			 mysql5.7及之后版本，需在my.cnf里提示的/etc/mysql/mysql.conf.d/mysqld.cnf上修改
+			 才行
+		  修改配置后,一般需要重开这个服务或者重启电脑，配置才会被重新加载从而生效
+		  mysql服务当然也不例外，这里需要重启mysql服务:
+											
+										shell> service mysql restart
+							 
+							
+  
+    ***程序在执行前，会加载有关配置文件，/etc/init.d/存放的都是启动后台程序的脚本，当脚本被执行时
+		程序也就被启动了，这样就实现了开机自启动
+  
+  
+    
+  
+  
+  

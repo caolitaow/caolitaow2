@@ -1,0 +1,63 @@
+2019,9.12:
+#
+	ssh协议，http协议【客户端程序和服务端程序分别是什么】，ftp协议，sftp协议【对应的client and server program?】
+	http服务器与web服务器的区别
+	远程登录到mysql-server
+	挂载
+	学会使用markdown
+
+@
+	*service --status-all 查看linux系统所有的服务，[+]表示服务正在运行
+												   [-]表示服务处于关闭状态
+												   
+	*service {服务名} [start][stop] 开启系统服务，关闭系统服务【{}表示必填项，[]表示可选项，得有一个可选项】
+												   
+协议小结：
+		所谓协议，即规范，常见的协议按五层网络体系结构的通信协议来分：
+			物理层：PLC，双绞线等
+			数据链路层：Wi-Fi，CSMA/CD等
+			网络层：IP，ICMP
+			传输层：TCP，UDP，TLS
+			应用层：DHCP，DNS,FTP，HTTP，HTTPS，TELNET,	SSH,RPC,SFTP【基于ssh协议】
+			TELNET,FTP,HTTP,对应的底层层协议为TCP/IP
+	
+		TELNET,FTP,HTTP,对应的底层层协议为TCP/IP
+	
+	*不同的应用协议针对的当然是不同的应用，即应用层协议的直接载体肯定是某个应用，也就是程序
+		
+		例如：ftp--文件传输协议，它的直接载体就是ftp程序，即ftp程序按照ftp协议在网络上传输文件
+			  而ftp程序由两部分组成：ftp-client,ftp-server,
+			  即在ftp的客户端和服务端直接传输的文件遵循了ftp协议，就像web中的C/S结构
+			 
+			 【其实B/S本质上也能看成C/S,因为浏览器本来就是客户端，只不过大家的客户端都一样了，
+			 各种文件的传输的客户端都是叫浏览器】
+		
+		其他用于传输数据的应用层协议也类似，像ssh,telnet,等
+	
+	*FileZilla,Xshell等用于访问远程服务器的软件可以看成是ftp-client，ssh-client，等多种协议
+	 对应载体【程序】的客户端的集合，也是一种浏览器，只不过不是web浏览器
+	 
+	*当然web浏览器【访问的也是计算机里的文件，只不过这种文件，给它起了个名叫web项目】如：chrome,firefox等也能支持其他协议
+	
+	*一些操作系统如windows,本身自带的文件资源管理器就支持一些传输协议，只不过功能没上述软件客户端的
+	功能强大
+	
+	
+	**默认情况下，vsftp是不允许root用户登录的
+													
+	*灵活运用grep能提高工作效率，如要查询某个路径下所有包含某些关键字的文件时，可以使用
+	 ls [pathname] |grep [keywords]，当然你也可以用tab键的自动提示功能
+
+	*ctrl+d 退出当前用户，服务器版的linux下当最后一个用户退出时，就会退到进入系统前的登录
+	界面，而桌面版的linux，就会关闭命令行窗口
+	
+	
+	【shell> 表示在命令行模式下】
+	*shell>tty 显示当前终端机名称 ubuntu下所有的终端机文件都放在/dev
+	
+	
+	【linux默认有64个终端机】在服务器版本的linux下alt+f1~f6可以切换终端tty，相当于
+	linux-desktop下切换不同的命令行窗口
+	
+	linux从图形界面切换到字符界面：ctrl+alt+f1~f6
+	

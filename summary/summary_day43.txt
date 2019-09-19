@@ -1,0 +1,67 @@
+2019，9.16:
+#
+	{}表示必填项，[]表示选填项
+	完成9.12的工作
+	数据库表的关系与java类中的关系
+@	
+	*web服务器【一般也叫做http服务器】:处理http请求的服务器，支持jsp和servelt技术如tomcat,iis服务器
+	可以这么理解web应用的两端：Browser 相当于 http-client；web服务器【tomcat】相当于http-server
+	
+	*sftp是ssh协议的一部分，实际上ssh程序软件包里已经包括了sftp安全文件传输这个子系统，即安装了
+	的openssh-server里包含了sftp-server
+	
+	*开启了ssh服务也就开启了sshd进程
+	
+	*利用ssh密钥方式登录时，需生成一对密钥，密钥通常在家目录下的.ssh【隐藏文件夹下】，且要将
+	公钥文件拷贝到服务器的~/.ssh/authorized_keys文件上，这样就实现了免密登录，
+	还防止了其他服务器
+	冒充目标服务器，传输过程中数据也被加密了，但效率跟ftp相比有所下降
+	
+	*以下是几种远程登录的命令：
+		ftp remote ip
+		sftp username@remote ip
+		ssh username@remote ip 
+		http。。。
+		
+	*在用上述命令登录到远程计算机后，在sftp和ftp模式下可以用put/get，mput/mget实现单个文件
+	或多个文件的上传与下载，此时ls,cd等系统命令操作的均是远程计算机，想操作本地文件在命令前
+	加上l【locate】字母即可，如lcd,lls,等，当然加！也可以
+	
+	注意：在文件传输模式下，只能使用系统命令，第三方软件对应的命令不能使用，如sftp>vim 会提示
+	不合法的命令【即使你安装了这些软件】
+	
+		mget/get {rfilename} [lfilename] 就下载到了该文件上【若未写本地文件名则，以原文件名形式下载】
+	
+	    mput/put与上类似
+	*ftp>或sftp>下下载文件不能指定下载到本地的某个路径下，只能下载到当前的本地目录，要想下载到
+	本地想要的路径下，需先用lcd切换到该路径下，然后下载。【本地以root用户登录时，可下载到任意路径下】
+	
+	*mysql>pager more ,分屏显示
+	
+	*mysql中区分大小写但不区分单引号和双引号
+	
+	*挂载与直接登录到远程主机操作没有本质区别
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

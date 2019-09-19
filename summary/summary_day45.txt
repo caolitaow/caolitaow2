@@ -1,0 +1,70 @@
+2019，9.18：
+#
+	搜一些大数据的面试题
+	完成数据库的题
+	挂载
+	
+@	
+	*表的连接顺序由内部决定，并不按照sql语句里的书写顺序
+	*等值连接【内连接】？
+	例如：查询员工信息及所属部门
+			select * from s_emp s,s_dept d
+			where s.id = d.id;
+			
+			等价于
+			
+			select * from s_emp s inner join s_dept d
+			on s.id = d.id;
+	
+	*不等值连接
+	
+	*外连接【在等值连接的基础上】既要显示等值连接的结果又要显示主表未匹配的记录
+		左外连接 left [outer] join 【左边写的是主表】
+		右外连接 right [outer] join  【右边写的是主表】
+	
+	未匹配的记录中从表部分的列值用NULL代替
+	
+	*全连接【左外连接结果 union 右外连接结果】去重了
+	
+	
+	*自连接【主表和从表是一张表】例如查询所有员工所属经理的信息，经理也属于员工
+
+
+	*子查询（嵌套查询）【一个查询是另一个查询的条件】
+     例如：查询工资比Smith工资高的员工信息
+			select last_name,salary from s_emp 
+			where salary>(select salary from s_emp where last_name='Smith');
+	
+	*组函数：avg(),sum(),max(),min()
+		    count()
+	一般与group by 连用
+	
+	select xxx, avg() from s_emp group by xxx;
+	但若去掉group by 就会报错
+	
+	group by [column]
+
+	having 对分组之后的结果进行限定
+
+	查询所有最高工资高于1300的部门中员工的名字
+
+	select dept_id, max(salary) max from s_emp group by dept_id 
+	select s.last_name  from (select dept_id, max(salary) max from s_emp group by dept_id
+						 having max>1300) q,s_emp s
+				   where q.dept_id = s.dept_id;
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
