@@ -1,0 +1,34 @@
+2019，9.20：
+#
+	完成video.txt
+	挂载
+	学习事务和查询效率的提高，总结最佳的查询方式
+@
+	*视图的结构不能用alter直接删除或增加字段直接更改，因为视图不是基本表
+	例如：incorrect： alter table t_view add name varchar(20);
+	但可以通过:
+				alter view t_view as select xxxx,name from xxx;
+				更改查看的内容达到更改视图结构的目的
+	
+	*tar 解压的是tar.gz文件
+		tar -czvf xxx.tar.gz xxx 【compressing】
+		
+		tar -xzvf xxx.tar.gz	 【uncompressing】
+		tar -tzvf xxx.tar.gz     【查看压缩文件里的文件】
+		
+		注意：tar 压缩的文件后缀名也能是.gz，但此时解压文件是必须也由tar解压
+			  若此时用gzip解压，解压的文件内容会有误差【类似于乱码】
+			  而用tar解压gzip压缩的文件失败
+			  
+			  即tar可以解压由自己压缩的.gz文件，也能解压.tar.gz
+			  但就是不能解压由gzip压缩的文件
+	
+	*gzip 解压的是.gz文件
+	
+		gzip xxx 【compressing】
+		gzip -dv 【uncompressing】
+		gzip -l  【查看压缩文件里的文件】
+	
+	
+	
+	

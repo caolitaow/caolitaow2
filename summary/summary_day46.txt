@@ -1,0 +1,61 @@
+2019，9.19：
+#
+	练习sql查询
+	完成vidfeo.txt里的题
+	在linux-en上安装好jre,将聊天程序打包好发到linux中运行
+	挂载
+
+
+@
+	*and与or的执行顺序 not>and>or
+	
+	视图--只有查看了，才有图
+	基本语法：create view xx as select xxx,xxx from xx ...
+	*视图的特点：
+		1.视图的列可以来自不同表，是表的抽象和逻辑意义上建立新的关系
+		2.视图是由实表产生的虚表【不占用磁盘空间】
+		3.视图的建立和删除不影响基本表
+	  **4.对视图内容的更新直接影响基本表（仅限于简单视图）
+			
+			简单视图：视图与表列与列一对一对应
+			其他的视图都属于复杂视图，例如：对列值进行了求和，求均，等操作产生的新值
+											create view as select avg(salary) from s_emp;
+		5.实表上的约束对虚表同样适用
+	
+	*说白了视图就是来存放查询结果的，即查询结果的一种表示形式
+
+	
+	**引用视图时，底层在执行该sql语句时，会将该语句和创建视图时的语句合并
+
+	触发器：
+		delimiter #【此时;就只有分隔的作用，#才有提交的作用】
+		create trigger xxx {[after],[before]} {[insert],[update],[delete]}
+		on table_name
+		for each row
+		begin 
+	    sql语句;
+		end#
+
+	start transaction; 手动开启事务后需要手动提交事务
+	commit;
+	
+	rollback;撤销刚刚提交的事务
+
+	savepoint x；
+	
+	rollback to x;撤销到事务里的某个点
+	
+	有些语句会自动提交事务：DDL语句：create table create producer ....
+							改变mysql架构：create user   create database;
+	
+
+	grant 权限 on 数据库.表 to '用户名'@'ip' identified by '密码' with grant option;
+	此时mysql数据库中的user表里多了一条记录，也可以直接给user表添加新的用户和主机
+	
+	？事务：
+		
+		
+		不可重复读
+		脏读
+		
+
