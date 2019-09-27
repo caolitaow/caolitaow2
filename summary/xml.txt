@@ -1,0 +1,850 @@
+
+
+xml基础
+xml语法
+xml解析（*）
+
+
+一  XML简单的历史介绍
+	
+1969年 GML   通用标记语言
+	用于计算机之间的通信,通信就会传输数据,那么就需要一种数据的规范
+1985年 SGML  标准通用标记语言
+	对GML进行完善
+1993年 HTML  超文本的标记语言(HyperText Markup Language)
+	随着万维网的推广,在SGML的基础上,又出现了HTML语言,用于万维网上的页面展示
+1998年 XML   可扩展的标记语言(Extensible Markup Language)
+	HTML有不少的缺陷,HTML语言的标记不能自定义,HTML语言的标记本身不能用来描述数据,
+	HTML语言的标记没有国际化(不同浏览器显示同一页面的效果可能不一样)
+	W3C组织在1998年推出了可扩展标记语言XML
+	XML语言的本身是用来替代HTML语言的,但是俩种语言还有一定差异的,所以中间出现了一种过渡的语言:XHTML
+	但实际上XML语言已经很难替代HTML语言了,因为HTML语言的使用在整个万维网上使用太广泛了。
+
+
+二  XML有什么作用,为什么要学习XML
+	第一个需求: 数据传输需要一定的格式
+		1.数据的可读性
+		2.将来的扩展
+		3.将来的维护
+	XML现在已经是业内传输数据的标准,它和语言无关
+
+	第二个需求: 配置文件,之前使用的.properties资源文件中描述的信息不丰富
+	
+	第三个需求: 保存数据,充当小型的数据库
+		保存数据一般是使用数据库保存,或者使用一般的文件保存,这个时候也可以选择XML文件,因为XML可以描述复杂的数据关系。从普通文件中读取数据的速度肯定是比从数据库中读取数据的速度快,只不过这样不是很安全而已
+
+
+
+三 语法
+	1.文档声明
+		XML文件的后缀为.xml
+		XML文本要求文件有一个头部声明: 用来告诉解析器一些相关信息
+		<?xml version="1.0" encoding="UTF-8"?>
+		表明当前文件是xml文件,XML版本为1.0,文件内容使用的字符编码为UTF-8
+		注意:要小心在系统中这个xml文件保存时候的编码,是否和文件内容中设置的编码一致
+
+	2.元素
+		2.1
+		每个XML文档必须有且只有一个根元素。root
+		根元素是一个完全包括文档中其他所有元素的元素。
+		根元素的起始标记要放在所有其他元素的起始标记之前。
+		根元素的结束标记要放在所有其他元素的结束标记之后。
+		
+		2.2
+		xml文件中的标记也可以叫标签、元素、节点。
+		XML元素指XML文件中出现的标签，一个标签分为开始标签和结束标签，一个标签有如下几种书写形式，例如：
+		包含标签体：<a>www.baidu.com</a>
+		不含标签体的：<a></a>, 可以简写为：<a/>
+		一个标签中也可以嵌套若干子标签。但所有标签必须合理的嵌套，
+		绝对不允许交叉嵌套 ，例如：
+		<a>你好!<b>程序员</a></b> 
+		这样嵌套是可以的
+		<a>你好!<b>程序员</b></a>
+		
+		2.3
+		对于XML标签中出现的所有空格和换行，
+		XML解析程序都会当作标签内容进行处理。例如：下面两段内容的意义是不一样的。
+		<name>tom</name>
+
+		<name>
+			tom
+		</name>
+
+		由于在XML中，空格和换行都作为原始内容被处理，所以，在编写XML文件时，要特别注意。但是在一些封装好的解析方式中,是可以忽略掉这些空格和换行的.(例如在一些第三方提供的jar包中)
+		
+		2.4
+		一个XML元素可以包含字母、数字以及其它一些可见字符，但必须遵守下面的一些规范
+		区分大小写，例如，<P>和<p>是两个不同的标记。
+		不能以数字或"_" (下划线)开头。
+		不能包含空格。
+
+
+
+	3.属性
+		<student id="100">
+			<name>TOM</name>
+		</student>
+
+		属性值用双引号（"）或单引号（'）分隔
+		一个元素可以有多个属性，它的基本格式为：
+			<元素名 属性名="属性值">
+		特定的属性名称在同一个元素标记中只能出现一次
+		属性值不能包括<, >, &
+	
+	4.实体 entity
+		xml文件中有些特殊的字符是不能直接表示出来的,例如:大于号,小于号,单引号、双引号等等 
+		使用实体的格式: &实体名字;
+		预定义字符实体,由XML规范预先定义好了
+		&lt;		<
+		&gt;		>
+		&amp;		&
+		&quot;		"
+		&apos;		'
+
+		自定义实体 ENTITY entity
+		格式：
+		<!DOCTYPE 根元素名称[
+			<!ENTITY 实体名 实体内容>
+		]>
+
+
+		eg:
+		<!DOCTYPE courses[
+			<!ENTITY company "昆山杰普软件科技有限公司">
+		]>
+		其中：company为实体名称
+				  "昆山杰普软件科技有限公司"是实体内容
+			  实体的使用：&company;
+
+
+	4.注释
+		<!--这是一个注释-->
+		注释内容中不要出现- -；
+		不要把注释放在标记中间；
+		<Name <!--the name--> > TOM </Name>
+		注释不能嵌套；
+		可以在除标记以外的任何地方放注释
+
+	5.PCDATA,CDATA
+		PCDATA (Parsed Character Data) 会被xml文档解析
+	器解析的，但是有些特殊字符需要借助实体才可以被解析器解析。XML文件
+	中的正常内容基本都是PCDATA
+
+		CDATA (Character Data) 不会被xml文档解析器解析的，
+	按字符串原样输出。有些内容不想让解析,按照内容原样输出就可以了,这种
+	情况可以使用CDATA
+		格式：<![CDATA[需要原样输出的字符串]]>
+			  <![CDATA[.....]]>
+
+	6.处理指令
+		处理指令，简称PI （processing instruction）。处理指令用来指挥解析引擎如何解析XML文档内容。
+
+		例如，在XML文档中可以使用xml-stylesheet指令，通知XML解析引擎，使用css文件显示xml文档内容。
+		<?xml-stylesheet type="text/css" href="css文件路径"?>
+
+		处理指令必须以 <? 作为开头，以 ?> 作为结尾，XML文件的头部声明语句就是最常见的一种处理指令。 
+		XML文件中可以有多个处理指令
+		例如: class.xml文件:
+		<?xml version="1.0" encoding="UTF-8"?>
+		<?xml-stylesheet href="class.css" type="text/css"?>
+		<class>
+			<student id="001">
+					<name>张三</name>
+					<age>20</age>
+			</student>
+			<student id="002">
+					<name>李四</name>
+					<age>20</age>
+			</student>
+		</class>
+
+		class.css文件:
+		name{
+			font-size:30px;
+			font-weight:bold;
+			color:red;
+		}
+		age{
+			font-size:30px;
+			font-weight:bold;
+			color:green;
+		}
+
+
+四  XML命名空间 namespace
+	XML 命名空间提供避免元素命名冲突的方法。
+	在 XML 中，元素名称是由开发者定义的，当两个不同的文档使用相同的元素名时，就会发生命名冲突。
+
+	例如:
+	这个 XML 文档携带着某个表格中的信息：
+	<table>
+	   <tr>
+		   <td>Apples</td>
+		   <td>Bananas</td>
+	   </tr>
+	</table>
+	这个 XML 文档携带有关桌子的信息（一件家具）：
+	<table>
+	   <name>茶几</name>
+	   <width>80</width>
+	   <length>120</length>
+	</table>
+	假如这两个 XML 文档被一起使用，由于两个文档都包含带有不同内容和定义的 <table> 元素，就会发生命名冲突。
+	XML 解析器无法确定如何处理这类冲突。
+	
+
+	第一种解决方案:
+		使用前缀来避免命名冲突
+	此文档带有某个表格中的信息：
+	<h:table>
+	   <h:tr>
+		   <h:td>Apples</h:td>
+		   <h:td>Bananas</h:td>
+	   </h:tr>
+	</h:table>
+	此 XML 文档携带着有关一件家具的信息：
+	<f:table>
+	   <f:name>茶几</f:name>
+	   <f:width>80</f:width>
+	   <f:length>120</f:length>
+	</f:table>
+
+	现在，命名冲突不存在了，这是由于两个文档都使用了不同的名称来命名它们的 <table> 元素 (<h:table> 和 <f:table>)。
+	通过使用前缀，我们创建了两种不同类型的 <table> 元素。
+
+	第二种解决方案:
+	使用命名空间（Namespaces）
+	这个 XML 文档携带着某个表格中的信息：
+	<h:table xmlns:h="http://www.briup.com/h">
+	   <h:tr>
+	   <h:td>Apples</h:td>
+	   <h:td>Bananas</h:td>
+	   </h:tr>
+	</h:table>
+	此 XML 文档携带着有关一件家具的信息：
+	<f:table xmlns:f="http://www.briup.com/f">
+	   <f:name>茶几</f:name>
+	   <f:width>80</f:width>
+	   <f:length>120</f:length>
+	</f:table>
+	与仅仅使用前缀不同，我们为 <table> 标签添加了一个 xmlns 属性，
+	这样就为前缀赋予了一个与某个命名空间相关联的限定名称。
+	
+
+	XML Namespace (xmlns) 属性
+	XML 命名空间属性被放置于元素的开始标签之中(一般都会在根元素中声明)，并使用以下的语法：
+	xmlns:namespace-prefix="namespaceURI"
+	当命名空间被定义在元素的开始标签中时，所有带有相同前缀的子元素都会与同一个命名空间相关联。
+	用于标示命名空间的地址不会被解析器用于查找信息。其惟一的作用是赋予命名空间一个惟一的名称
+	
+
+	默认的命名空间（Default Namespaces） 使用以下的语法:
+	xmlns="namespaceURI"
+	为元素定义默认的命名空间可以让我们省去在所有的子元素中使用前缀的工作。
+	这个 XML 文档携带着某个表格中的信息：
+	<table xmlns="http://www.briup.com">
+	   <tr>
+	   <td>Apples</td>
+	   <td>Bananas</td>
+	   </tr>
+	</table>
+	此 XML 文档携带着有关一件家具的信息：
+	<table xmlns="http://www.baidu.com">
+	   <name>茶几</name>
+	   <width>80</width>
+	   <length>120</length>
+	</table>
+
+五  XML约束
+	在XML技术里，可以编写一个文档来约束一个XML文档的书写规范，这称之为XML约束。
+	
+	需要XML约束的原因
+	xml由于是可扩展的标记语言,所以在xml文件中的编写太过于自由,这样在很多种情况下并不合适。
+	
+	常用的约束技术
+	XML DTD 
+		DTD文件的后缀名为 .dtd
+		DTD文件有自己独立的语法规范
+	XML Schema
+		Schema文件的后缀名为 .xsd
+		Schema文件符合xml语法规范
+
+六  DTD Document Type Define
+	DTD的定义：描述元素、属性和其他杂项在xml文档中
+	           的使用规则的说明
+	DTD的分类：外部的DTD 内部的DTD 混合的DTD
+		1).内部的DTD：DTD和xml文档在同一个文件中
+		例如:
+		student1.xml文件:
+		<?xml version="1.0" encoding="UTF-8"?>
+		<!DOCTYPE students[
+			<!ELEMENT students (stu+)>
+			<!ELEMENT stu (id,name,age)>
+			<!ELEMENT id   (#PCDATA)>
+			<!ELEMENT name (#PCDATA)>
+			<!ELEMENT age  (#PCDATA)>
+		]>
+		<students>
+			<stu>
+				<id>1</id>
+				<name>tom</name>
+				<age>20</age>
+			</stu>
+		</students>
+
+		2).外部的DTD：DTD和xml文档不在同一个文件中
+		例如:
+		xml/student2.xml文件
+		<?xml version="1.0" encoding="UTF-8"?>
+		<!DOCTYPE students SYSTEM "../dtd/student.dtd">
+		<students>
+			<stu>
+				<id>1</id>
+				<name>tom</name>
+				<age>20</age>
+			</stu>
+		</students>
+		dtd/student.dtd文件:
+		<!ELEMENT students (stu+)>
+		<!ELEMENT stu (id,name,age)>
+		<!ELEMENT id   (#PCDATA)>
+		<!ELEMENT name (#PCDATA)>
+		<!ELEMENT age  (#PCDATA)>
+
+		3).混合的DTD：既有外部DTD，又有内部DTD
+		例如:
+		xml/student3.xml文件
+		<?xml version="1.0" encoding="UTF-8"?>
+		<!DOCTYPE students SYSTEM "../dtd/student.dtd"[
+			<!ELEMENT stu (id,name,age)>
+			<!ELEMENT id   (#PCDATA)>
+			<!ELEMENT name (#PCDATA)>
+			<!ELEMENT age  (#PCDATA)>
+		]>
+		<students>
+			<stu>
+				<id>1</id>
+				<name>tom</name>
+				<age>20</age>
+			</stu>
+		</students>
+
+		dtd/student.dtd文件:
+		<!ELEMENT students (stu+)>
+	
+
+	外部的DTD
+		引用外部dtd的时候又分为俩种:
+		SYSTEM表示引用的dtd文件在本地 
+		例如:
+		<!DOCTYPE students SYSTEM "../dtd/student.dtd">
+
+		PUBLIC表示引用的dtd文件是一个公共的文件
+		格式:注意里面是可以加回车换行的
+		<!DOCTYPE 根元素 PUBLIC "" "">
+		例如:
+		<!DOCTYPE hibernate-configuration PUBLIC
+          " -//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+		
+		在后面的"如何在Eclipse中给xml文件添加标签自动提示功能"的部分再做说明
+
+
+	DTD的目的：
+		验证该xml文档是否是有效的xml文档
+		如果一个良构的xml文档满足了DTD的声明就是一个有效的xml文档。
+		注意：良构 不一定有效，但是有效一定良构
+	
+
+	DTD对xml文件中元素的约束：
+		格式：<!ELEMENT  元素名 (内容模式)>
+		内容模式：
+			1).EMPTY：元素不能包含子元素和文本（空元素）
+			例如:
+			dtd文件:
+			<!ELEMENT students (stu)>
+			<!ELEMENT stu EMPTY>
+			xml文件:
+			<students>
+				<!--这个stu元素中的内容必须为空-->
+				<stu></stu>
+			</students>
+
+			2).(#PCDATA)：可以包含任何字符数据，但是不能在其中包含任何子元素
+			例如:
+			dtd文件:
+			<!ELEMENT students (stu)>
+			<!ELEMENT stu (#PCDATA)>
+			xml文件:
+			<students>
+				<stu>tom</stu>
+			</students>
+
+			3).ANY：元素内容为任意的，主要是使用在元素内容不确定的情况下
+			例如:
+			dtd文件:
+			<!ELEMENT students (stu)>
+			<!ELEMENT stu ANY>
+			xml文件:
+			<students>
+				<stu>tom</stu>
+			</students>
+			或者
+			<students>
+				<stu>
+					<name>tom</name>
+				</stu>
+			</students>
+			
+
+			4).修饰符：() | + * ? , 默认修饰符
+			() 来给元素分用组 
+
+			|  在列出的元素中选择一个 
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu|student)>
+				xml文件:
+				<students>
+					<!--这里只能出现stu元素或者student元素-->
+					<!--俩个元素任选其一,不能同时出现-->
+				</students>
+
+			+  该元素最少出现一次，可以出现多次 (1或n次)
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu+)>
+				xml文件:
+				<students>
+					<stu></stu>
+					<stu></stu>
+					<stu></stu>
+				</students>
+
+			*  该元素允许出现零次到任意多次（0到n次）
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				xml文件:
+				<students>
+					<!--stu出现0次到n次-->
+					<stu></stu>
+					<stu></stu>
+					<stu></stu>
+				</students>
+
+			?  该元素可以出现，但只能出现一次 (0到1次)
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu?)>
+				xml文件:
+				<students>
+					<!--stu出现0次到1次-->
+					<stu></stu>
+				</students>
+
+			,  对象必须按指定的顺序出现
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (id,name,age)>
+				xml文件:
+				<students>
+					<stu>
+						<id></id>
+						<name></name>
+						<age></age>
+					</stu>
+				</students>
+
+			默认修饰符 就是什么修饰符都没有加
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu)>
+				xml文件:
+				<students>
+					<!--这里只能出现stu元素1次-->
+					<!--stu元素不出现也验证不通过-->
+					<stu></stu>
+				</students>
+		
+
+			5).混合元素 子元素是任意类型 出现任意次数 并且没有出现顺序要求
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (#PCDATA|id|name|age)*>
+				xml文件:
+				<students>
+					<stu></stu>
+					<stu>
+						<id></id>
+						<name></name>
+						<age></age>
+					</stu>
+					<stu>tom</stu>
+				</students>
+				注意:
+				1 根元素students里面可以出现stu子元素0到n次
+				2 stu元素中可以写文本也可以写id、name、age子元素
+				3 id、name、age子元素出现的顺序没有要求
+				4 id、name、age子元素可以都出现也可以都不出现
+
+
+		注意：浏览器是非验证的解析器，不会验证xml的有效性
+		      可以使用Eclipse去验证xml的有效性
+
+	
+	DTD对xml文件中属性的约束：
+		格式：<!ATTLIST 元素名称
+					属性名称    值类型    属性特点
+					属性名称    值类型    属性特点
+			  >
+
+		属性类型：
+			1).CDATA：属性值可以是任何字符（包括数字和中文）
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (#PCDATA)>
+					<!ATTLIST stu 
+						id   CDATA #REQUIRED
+						name CDATA #REQUIRED
+					>
+				xml文件:
+				<students>
+					<stu id="1" name="tom"></stu>
+				</students>
+
+			2).ID：属性值必须唯一,属性值必须满足xml命名规则
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (#PCDATA)>
+					<!ATTLIST stu 
+						id   ID    #REQUIRED
+						name CDATA #REQUIRED
+					>
+				xml文件:
+				<students>
+					<stu id="A1" name="tom"></stu>
+					<stu id="B1" name="tom"></stu>
+				</students>
+				注意:
+					1. id和name属性必须出现
+					2. id属性的值必须满足xml名字规范,例如不能数字开头
+					3. id属性的值不能重复
+					4. 多个属性的出现是没有顺序要求的
+
+			3).IDREF/IDREFS
+				IDREF属性的值指向文档中其它地方声明的ID类型的值。
+				IDREFS同IDREF，但是可以具有由空格分开的多个引用。
+
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (#PCDATA)>
+					<!ATTLIST stu 
+						id   ID			#REQUIRED
+						pid  IDREFS     #IMPLIED
+						name CDATA		#REQUIRED
+					>
+				xml文件:
+				<students>
+					<stu id="A1" name="tom"></stu>
+					<stu id="B1" name="tom"></stu>
+					<stu id="C1" name="tom" pid="A1 B1"></stu>
+				</students>
+				注意:
+					1. id和name属性必须出现
+					2. pid属性出现可以,不出现也可以
+					3. id属性的值必须满足xml名字规范,例如不能数字开头
+					4. id属性的值不能重复
+					5. pid属性的值必须是引用其他stu元素的id值
+					6. pid属性的值可以是多个,使用空格隔开
+					7. 多个属性的出现是没有顺序要求的
+
+			4).enumerated：(枚举值1|枚举值2|枚举值3...),属性值必须在枚举值中
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (#PCDATA)>
+					<!ATTLIST stu 
+						id     ID    		#REQUIRED
+						name   CDATA 		#REQUIRED
+						gender (男|女) 		#REQUIRED
+					>
+				xml文件:
+				<students>
+					<stu id="A1" name="tom" gender="男"></stu>
+					<stu id="B1" name="tom" gender="女"></stu>
+				</students>
+				注意:
+					1. id/name/gender属性必须出现
+					2. id属性的值必须满足xml名字规范,例如不能数字开头
+					3. id属性的值不能重复
+					4. gender属性的值必须是男或者女
+					5. 多个属性的出现是没有顺序要求的
+
+		属性特点：
+			1).#REQUIRED：元素的所有实例都必须有该属性
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (#PCDATA)>
+					<!ATTLIST stu 
+						name   CDATA   #REQUIRED
+					>
+				xml文件:
+				<students>
+					<stu name=""></stu>
+					<stu name="tom"></stu>
+				</students>
+				注意:
+					1. name属性必须出现
+					2. name属性的值可以为空也可以不为空
+
+			2).#IMPLIED ：属性可以不出现
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (#PCDATA)>
+					<!ATTLIST stu 
+						name   CDATA   #IMPLIED
+					>
+				xml文件:
+				<students>
+						<stu name=""></stu>
+						<stu name="tom"></stu>
+						<stu></stu>
+				</students>
+				注意:
+					1. name属性可以出现也可以不出现
+					2. name属性的值可以为空也可以不为空
+
+			3).default-value：属性可以不出现，并且当它不出现的时候是有默认值的，而该属性的默认值就是atttibute-value
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (#PCDATA)>
+					<!ATTLIST stu 
+						name   CDATA   "tom"
+					>
+				xml文件:
+				<students>
+						<stu name="zhangsan"></stu>
+						<stu></stu>
+				</students>
+				注意:
+					1. name属性可以出现也可以不出现
+					2. name属性如果不出现则默认值为tom
+
+			4).#FIXED ：属性可以不出现，但是如果出现的话必须是指定的属性值
+				例如:
+				dtd文件:
+				<!ELEMENT students (stu*)>
+				<!ELEMENT stu (#PCDATA)>
+					<!ATTLIST stu 
+						name   CDATA   #IMPLIED
+						school CDATA   #FIXED "briup"
+					>
+				xml文件:
+				<students>
+						<stu school="briup"></stu>
+						<stu></stu>
+				</students>
+				注意:
+					1. name/school属性可以出现也可以不出现
+					2. school属性如果出现那么值一定要是briup
+
+		
+	DTD文档的一个实例：
+		dtd文档:
+		<!ELEMENT students (student+)>
+		<!ELEMENT student (name,age?,score*)>
+			<!ATTLIST student id CDATA #REQUIRED>
+		<!ELEMENT name (#PCDATA)>
+			<!ATTLIST name firstName CDATA #IMPLIED>
+		<!ELEMENT age (#PCDATA)>
+			<!ATTLIST age xuAge CDATA #FIXED "20">
+		<!ELEMENT score (#PCDATA)>
+			<!ATTLIST score sel (60|80|100) #REQUIRED>
+	
+
+
+	
+	利用DTD文件在Eclipse中给xml文件添加标签自动提示功能
+	
+	
+	利用schame文件在Eclipse中给xml文件添加标签自动提示功能
+	
+
+
+	XML解析分为：dom解析和sax解析
+	dom：(Document Object Model, 即文档对象模型) 
+	是 W3C 组织推荐的处理 XML 的一种方式。
+	sax： (Simple API for XML) 不是官方标准，
+	但它是 XML 社区事实上的标准(相当于是一个民间标准)，
+	几乎所有的 XML 解析器都支持它。
+
+	dom和sax都是一种模型/标准/理论,是需要其他人使用具体的代码去实现的
+
+	xml解析器就是用来对dom或者sax解析标准的具体实现
+
+	XML解析器
+	sun公司的解析器Crimson
+	IMB公司的解析器Xerces		已经捐献给apache组织
+	dom4j组织的解析器Aelfred2
+
+
+	sun公司根据自己的解析器推出了解析xml的API   Jaxp
+	Java API for XMLProcessing，意为XML处理的Java API
+
+	dom4j组织根据自己的解析器推出了解析xml的API dom4j
+	dom4j是一个Java解析XML的API，
+
+
+
+
+	JAXP介绍(Java API for XMLProcessing)
+	JAXP 是J2SE的一部分，它由javax.xml、org.w3c.dom 、org.xml.sax 包及其子包组成.
+	在 javax.xml.parsers 包中，定义了几个工厂类，程序员调用这些工厂类，
+	可以得到对xml文档进行解析的 DOM 或 SAX 的解析器对象。
+
+
+
+	获得JAXP中的DOM解析器步骤
+	1调用 DocumentBuilderFactory.newInstance() 方法得到创建 DOM 解析器的工厂。
+	2调用工厂对象的 newDocumentBuilder方法得到 DOM 解析器对象。
+	3调用 DOM 解析器对象的 parse() 方法解析 XML 文档，得到代表整个文档的 Document 对象，进行可以利用DOM特性对整个XML文档进行操作了。
+
+	JAXP的dom解析
+	例如:
+	//获得生产DocumentBuilder对象的工厂实例
+	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+	//设置是否支持名称空间 默认是不支持
+	factory.setNamespaceAware(true);
+
+	//通过工厂获得一个DocumentBuilder对象
+	DocumentBuilder builder = factory.newDocumentBuilder();
+
+	//如果xml中声明了对DTD的引用,则可以这样忽略掉DTD,否则会自动根据地址查找DTD
+	//其实就是给builder设置一个自定义的实体解析器(匿名内部类)
+	builder.setEntityResolver(new EntityResolver() {
+		@Override
+		public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+			byte[] data = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>".getBytes();
+			return new InputSource(new ByteArrayInputStream(data));
+		}
+	});
+
+
+	//获得Document对象,可以表示一个xml文档
+	Document document = builder.parse(fileName);
+
+	//获得根元素
+	//注意Document和Element都是Node的子接口
+	Element root = document.getDocumentElement();
+
+	//获得根元素下面的所有子元素
+	//注意回车换行也算是一个节点(文本节点)
+	//xml文件中主要是文本节点和元素节点
+	//元素节点中还包含属性节点
+	//我们要解析的值就在这些节点中
+	//这一步之后就是循环解析节点中的数据
+	NodeList rootChildNodes = root.getChildNodes();
+
+
+
+
+
+
+	在使用 DOM 解析 XML 文档时，需要读取整个XML文档，在内存中构
+	建代表整个 DOM 树的Doucment对象，从而再对XML文档进行操作。
+	此种情况下，如果 XML 文档特别大，就会消耗计算机的大量内存，
+	严重情况下可能还会导致内存溢出。
+
+	SAX解析允许在读取文档的时候，即对文档进行处理，而不必等到整个
+	文档装载完才会文档进行操作。
+
+
+	sax解析器在发现xml文档中的内容时就会调用你重新之后的方法. 
+	如何处理这些内容，由程序员自己决定。
+	在基于sax 的程序中,有五个最常用sax事件
+	startDocument() ---> 解析器发现了文档的开始标签
+	endDocument()   ---> 解析器发现了文档结束标签
+	startElement()  ---> 解析器发现了一个起始标签
+	character()     ---> 解析器发现了标签里面的文本值
+	endElement()    ---> 解析器发现了一个结束标签
+
+	SAX采用事件处理的方式解析XML文件，利用 SAX 解析 XML 文档，
+	涉及两个部分：解析器和事件处理器：解析器可以使用JAXP的API创
+	建，创建出SAX解析器后，就可以指定解析器去解析某个XML文档。
+
+	解析器采用SAX方式在解析某个XML文档时，它只要解析到XML文档的
+	一个组成部分，都会去调用事件处理器的一个方法，解析器在调用事件
+	处理器的方法时，会把当前解析到的xml文件内容作为方法的参数传递
+	给事件处理器。事件处理器由程序员编写，程序员通过事件处理器中方
+	法的参数，就可以很轻松地得到sax解析器解析到的数据，从而可以决
+	定如何对数据进行处理。
+
+
+
+
+	使用SAXParserFactory创建SAX解析工厂
+	SAXParserFactory spf = SAXParserFactory.newInstance();
+	通过SAX解析工厂得到解析器对象	
+	SAXParser sp = spf.newSAXParser();
+	将解析对象和事件处理器对象关联
+	sp.parse("src/class.xml", new DefaultHandler(){...});
+
+
+
+
+
+	Dom4j是一个简单、灵活的开放源代码的库。Dom4j是由早期开发JDOM的人
+	分离出来而后独立开发的。与JDOM不同的是，dom4j使用接口和抽象基类，
+	虽然Dom4j的API相对要复杂一些，但它提供了比JDOM更好的灵活性。 Dom4j是
+	一个非常优秀的Java XML API，具有性能优异、功能强大和极易使用的特点。
+	现在很多软件采用的Dom4j，例如Hibernate，包括sun公司自己的JAXP也
+	用了Dom4j。使用Dom4j开发，需下载dom4j相应的jar文件。
+
+	DOM4j中，获得Document对象的方式有三种：
+	开发dom4j要加入新jar包，并且在倒包时要导入dom4j的包
+	1.读取XML文件,获得document对象            
+	SAXReader reader = new SAXReader();             
+	Document document = reader.read(new File(“src/input.xml"));
+
+	2.解析XML形式的文本,得到document对象.
+ 	   String text = "<members></members>";             
+	    Document document = DocumentHelper.parseText(text);
+
+	3.主动创建document对象.
+	    Document document = DocumentHelper.createDocument();            
+	    //创建根节点
+	    Element root = document.addElement("members");
+
+
+	XML的解析
+	（一）SAX解析
+		SAX：基于事件处理的机制
+			sax解析xml文件时，遇到开始标签，结束标签，开始解析文件，文件解析结束，字符内容，空白字符等都会触发各自的方法。
+
+		优点：
+			适合解析大文件，对内存要求不高
+			轻量级的解析数据方式，效率更高  
+		缺点： 
+			不能随机解析
+			不能修改XML文件，只能进行查询
+
+	（二）DOM解析:
+		采用dom解析，会将xml文档全部载入到内存当中，然后将xml文档
+		中的所有内容转换为tree上的节点(对象)。
+		优点：	
+			可以随机解析
+			可以修改文件
+			可以创建xml文件
+		缺点：
+			适合解析小文件，对内存要求高
+

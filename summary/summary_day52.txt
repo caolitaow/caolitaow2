@@ -1,0 +1,50 @@
+2019，9.27：
+#
+	学习xml，安装一个更好的编辑器
+	用idea将项目导入github仓库中
+	maven给java app打成jar包报了异常 http://cwiki.apache.org/confluence/display/MAVEN/ProjectBuildingException
+	安装HBASE
+	利用c3p0多线程连接数据库
+	
+@
+xml可扩展标记语言:
+	*xml与html的区别:
+		1.可扩展性方面：HTML不允许用户自行定义他们自己的标识或属性，而在XML中，用户能够根据
+		需要自行定义新的标识及属性名，以便更好地从语义上修饰数据。 
+		
+		2.结构性方面：HTML不支持深层的结构描述，XML的文件结构嵌套可以复杂到任意程度，能表示
+		面向对象的等级层次。 
+		
+		3.可校验性方面：HTML没有提供规范文件以支持应用软件对HTML文件进行结构校验，而XML文件
+		可以包括一个语法描述，使应用程序可以对此文件进行结构校验。
+
+	【xml学习详情和演示见同级目录下的xml.txt，first.xml】
+	
+	
+用idea将项目导入github仓库中：
+		*点击VCS-->Import into Version Control-->Share Project on Github
+			
+		*输入Github的账号密码登录，这是输入仓库名和远程连接名等idea底层插件会在你的github上
+		新建一个仓库，以后该项目就能持续推送到该远程仓库了
+		
+		*如此推送，idea默认将推送的项目文件夹初始化成本地库
+		
+	这样推送到github上很方便，不用自己在本地创建本地库，添加连接名等一系列操作，
+	idea帮你弄好！
+	
+	
+maven给java app打成jar包：
+
+	*这里抛出ProjectBuildingException，查看错误信息发现，artifactId标签设置的是项目名，将
+	来打包发布的jar包名就是这个名字
+
+
+	
+【
+	*IDEA下双击shift键，弹出搜索文件的窗口
+	
+】
+	
+	
+	
+	

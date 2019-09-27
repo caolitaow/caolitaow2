@@ -1,0 +1,59 @@
+2019，9.26：
+#
+	建一个maven项目
+	linux安装tomcat,并将项目部署到tomcat中【9.28/国庆假期解决】
+	安装HBASE
+	利用c3p0多线程连接数据库
+
+@
+	建一个maven项目：
+		
+		*maven是通过不同模板插件来创建不同项目的
+		
+		*第一次建maven项目时，若卡在Generating project in Batch mode，说明从国外站点下载相关
+		构件太慢，可以在idea用的maven目录下的conf中更改setting.xml，在<mirrors></mirrors>
+		里添加：
+				<mirror>
+					<id>alimaven</id>
+					<name>aliyun maven</name>
+					<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+					<mirrorOf>central</mirrorOf>        
+				</mirror>
+		然后运行 MVN 命令的时候加上 -DarchetypeCatalog=local 这个参数。在 IDEA 中：
+		则
+			Files-->Settings-->"search" maven -->Runner-->VM Options: -DarchetypeCatalog=local
+			-->ok
+		这样它就根据本地的setting.xml，从阿里云仓库中下载构件
+
+	
+		*maven的方便之一：构件间的依赖管理，即在pom.xml中的<dependencies></dependencies>
+		添加项目依赖的构件【Java中一般是jar包】，maven先去本地仓库里查找该构件，若没有
+		就从远程仓库【一般是阿里云的仓库】下载构件到本地仓库，以便下次导入时直接从本地仓库寻找
+		
+		*本地存储库默认是 家目录/.m2/repository,当然在创建maven项目时你也能指定本地仓库
+		
+		*IDEA目录下的lib里自带了很多jar包
+		
+		**pom.xml一般会有表明该项目打包，发布，重构所需插件的标签，在IDEA里面下太慢了，建议直接到maven repository
+		网站去下载文件中指定版本的jar包，然后放到本地仓库中，下次建maven项目就直接用仓库里的
+		插件了
+		
+		*有了上述的插件后，maven会自动将项目打成jar/war等包部署到服务器【本地或远程】上，很方便
+		
+	linux安装tomcat,并将项目部署到tomcat中：
+	
+		*直接解压tomcat服务器文件即可
+		
+	    *到tomcat的bin目录下，运行启动脚本 source startup.sh，启动tomcat服务器
+		
+		*直接将.war放到tomcat-9.0.26的webapps下
+		
+		 但此时直接访问虚拟机里的tomcat里的war，显示404？，但服务器的首页tomcat是可以访问到的
+		 
+	
+	
+	
+	
+	
+	
+		
