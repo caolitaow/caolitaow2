@@ -1,0 +1,71 @@
+2019,9.29:
+#
+	NoSql
+	试着将mysql数据库导入到excel中
+	安装HBASE
+	利用c3p0多线程连接数据库
+	
+@
+NoSql【非关系型数据库】：
+	- 代表着不仅仅是SQL
+	- 没有声明性查询语言
+	- 没有预定义的模式
+	-键 - 值对存储，列存储，文档存储，图形数据库
+	- 最终一致性，而非ACID属性
+	- 非结构化和不可预知的数据
+	- CAP定理
+	- 高性能，高可用性和可伸缩性
+	
+	优点:
+
+	- 高可扩展性
+	- 分布式计算
+	- 低成本
+	- 架构的灵活性，半结构化数据
+	- 没有复杂的关系
+	缺点:
+
+	- 没有标准化
+	- 有限的查询功能（到目前为止）
+	- 最终一致是不直观的程序
+
+	
+
+	
+试着将mysql数据库导入到excel中：
+		
+	*一般ODBC数据源在mysql安装的时候就一并安装了,win10下查看：win键-->windows管理工具
+	-->ODBC数据源（32bits/64bits）
+	
+	*添加数据源，选择安装好的连接mysql的ODBC数据源驱动
+	
+	*wps不能选中ODBC数据源???
+	
+利用c3p0多线程连接数据库：
+	*java.lang.ClassNotFoundException: com.mchange.v2.cfg.MConfig，抛出这个异常是因为
+	c3p0.0.9.5.4所依赖的包mchange-commons-java的版本下错了，应该下载mchange-commons-java 0.2.15
+	这个版本，建议建maven项目，配置好pom.xml，就会自动下载c3p0及其所依赖的包
+	
+	*maven远程仓库里，每个包及其依赖包都放在一个页面供人下载
+	
+	*MaxPoolSize = 20
+	 MinPoolSize = 2
+	 InitialPoolSize = 5 即MaxPoolSize = 20表明连接池里最多有20个连接对象，程序员可以根据自身电脑的内存等
+	 配置情况，合理定义连接对象的个数，防止电脑内存被占满
+	 
+	 MinPoolSize = 2表明连接池里至少要有2个连接对象，这个也是根据实际的连接需求定义的，以满足
+	 多线程并发的连接需求
+	 
+	 若MinPoolSize>InitialPoolSize,则一开始连接池里初始化了MinPoolSize个连接对象，
+	 反之，则相反
+	 
+安装HBASE:
+	*
+
+	
+	
+	
+	
+	
+	
+	

@@ -1,0 +1,528 @@
+	
+	1.JVM的内存结构，Eden和Survivor比例。
+	2.JVM内存为什么要分成新生代，老年代，持久代。
+	3.新生代中为什么要分为Eden和Survivor。JVM
+	中一次完整的GC流程是怎样的，对象如何晋升到老年代，
+	说说你知道的几种主要的JVM参数。
+
+
+
+
+	maven
+	
+	interface->数据库的操作->数据库运行商
+
+	jar	驱动
+
+	元信息
+
+	jdbc
+	JDBC驱动：
+  	JDBC驱动程序：Sun公司所制定的JDBC接口实现类的集合，由数据库
+	厂商提供，不同数据库其JDBC驱动程序是不同的；	
+	
+	jdbc连接数据库的步奏
+	1.注册驱动	
+	2.获取链接
+	3.构建statement对象或者构建preparedStatement对象
+	4.执行sql语句
+	5.有结果集处理结果集，没有结果集执行第六步
+	6.关闭资源
+
+
+	注册驱动的方式
+	第一种：
+	DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+	第二种：
+	给虚拟机传递参数
+	System.setProperty("jdbc.drivers", "com.mysql.jdbc.Driver");
+	第三种：
+	Class.forName("com.mysql.jdbc.Driver");
+	第四种：
+	程序运行的时候给虚拟机传递参数
+	-Djdbc.drivers=com.mysql.jdbc.Driver
+
+	获取链接
+	第一种：
+	conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/briup","root","root");
+	第二种：
+	url格式  jdbc:子协议:子名称://ip:端口/数据库?属性名1=属性值1&属性名2=属性值2.....
+	String url = "jdbc:mysql://localhost:3306/javademo?user=root&password=root&useUnicode=true&characterEncoding=UTF8";
+	DriverManager.getConnection(url);
+	第三种：
+	Properties pro=new Properties();
+        pro.setProperty("user","root");
+        pro.setProperty("password","root");
+        conn=DriverManager.getConnection("jdbc:mysql://192.168.0.103:3306/briup",pro);
+             
+	
+	构建Statement对象
+	Statement sts=conn.createStatement();
+	
+	构建PreparedStatement
+	PreparedStatement ps=conn.prepareStatement(sql);
+
+
+	执行sql语句
+	Statement		PreparedStatement	returnType
+	execute(sql)		execute()		boolean  如果有结果集反回为true，否则全为false
+	executeUpdate(sql)	executeUpdate()		int 	 影响数据库的行计数
+	executeQuery(sql)	executeQuery()		ResultSet结果集
+
+	
+	处理结果集
+	1) 使用结果集(ResultSet)对象的访问方法获取数据;
+        a. next():下一个记录
+        b. first():第一个记录
+        c. last():最后一个记录
+        d. previous():上一个记录
+	e. res.absolute(int) 直接定位到某一行
+    	2) 通过字段名或索引取得数据
+    	3) 结果集保持了一个指向了当前行的指针，初始化位置为第一个记录前。
+	
+	关闭对象、释放资源，一般推荐先构建的后释放
+   	一般在finally里定义；
+    	1) 首先关闭记录集;
+    	2) 其次关闭声明;
+        3) 最后关闭连接对象
+	
+	Statement和PreparedStatement执行结果对比
+
+	         | Statement           		 | PreparedStatement     
+    ------------------------------------------------------------------------------
+    写代码位置     |   客户端              		 | 客户端             
+    ------------------------------------------------------------------------------
+    存储代码位置   |   客户端              		 | 服务器端               
+    ------------------------------------------------------------------------------
+    编写代码技术   |Java，SQL操作        		 |Java，SQL操作             
+    ------------------------------------------------------------------------------
+    可配置性      |   高              	 	 |第一次低，以后高           
+    ------------------------------------------------------------------------------
+    传输效率      |   低                		 |第一次低，以后高          
+	
+	
+
+
+    Java和数据库类型对应关系
+     数据库类型	                    Java数据类型              说明
+    ------------------------------------------------------------------
+    INTEGER或者INT                   int                     通常是个32位整数
+    SMALLINT                        short                   通常是个16位整数
+    NUMBER(m,n) DECIMAL(m,n)        Java.sql.Numeric        合计位数是m的定点十进制数，小数后面有n位数
+    DEC(m,n)                        Java.sql.Numeric        合计位数是m的定点十进制数，小数后面有n位数
+    FLOAT(n)                        double                  运算精度为n位二进制数的浮点数
+    REAL                            float                   通常是32位浮点数
+    DOUBLE                          double                  通常是64位浮点数
+    CHARACTER(n)或CHAR(n)            String                  长度为n的固定长度字符串
+    VARCHAR(n)                      String                  最大长度为n的可变长度字符串
+    BOOLEAN                         boolean                 布尔值
+    DATE                            Java.sql.Date           根据具体设备而实现的日历日期
+    TIME                            Java.sql.Time           根据具体设备而实现的时戳
+    TIMESTAMP                       Java.sql.Timestamp      根据具体设备而实现的当日日期和时间
+    BLOB                            Java.sql.Blob           二进制大型对象
+    TEXT                            Java.sql.Clob           字符大型对象
+    ARRAY                           Java.sql.Array
+	
+
+    	时间问题的处理
+    	prepareStatement.setDate();
+   	这里的时间类型是   java.sql.Date
+   	我们通常使用的是   java.util.Date
+	a,SimpleDateFormat 类可以帮助我们把String 转化成java.util.Date
+   	b,java.util.Date 可以通过时间戳，转化成java.sql.Date
+
+
+    	jdbc处理大段文本数据Clob(mysql中叫做Text)
+    	create table clob_test(
+   	id int,
+    	big_text text
+    	);
+
+    	String sql = "insert into clob_test(big_text) values(?)";
+    	ps = conn.prepareStatement(sql);
+
+
+	数据的存入
+ 	a, 如果数据只有ascii,即不能有中文字符特殊字符
+		pstat.setAsciiStream(1, x);
+ 	b, 如果数据含有中文，用字符流stat.setCharacterStream(1, x);
+ 		File file = new File("src/note");
+		FileReader fr = new FileReader(file);
+		stat.setCharacterStream(1, fr,file.length());
+	数据的读取
+	res = stat.executeQuery();
+	while (res.next()) {
+		File file = new File("note_bak.txt");
+		FileWriter fw = new FileWriter(file);
+		Clob clob = res.getClob(2);
+		Reader reader = clob.getCharacterStream();
+		char[] cs = new char[1024];
+		int length = 0;
+		while((length = reader.read(cs))!=-1){
+			fw.write(cs, 0, length);
+			fw.flush();
+		}
+		fw.close();
+		reader.close();
+	}
+	可以直接拿出字符流，不一定先拿clob
+	*res.getCharacterStream(2)
+
+	java.lang.String 和clob比较类似，限制范围都比较大
+	利用String 也可以在java代码中存入和读取clob类型数据
+	pstat.setString();
+	
+	Clob clob = res.getClob(2);
+	clob.getString();
+
+
+
+	jdbc处理二进制数据blob(mysql中叫做blob)
+
+	create table blob_test(
+	id int,
+	bin_file longblob
+	)
+
+	数据的存储
+	String sql = "insert into blob_test(id,bin_file) values(?,?)";
+
+	stat = conn.prepareStatement(sql);
+	stat.setInt(1, 1);
+	File f = new File("src/存储引擎比较.png");
+	BufferedInputStream bis = new BufferedInputStream
+		(new FileInputStream(f));
+	stat.setBlob(2, bis);
+	stat.executeUpdate();
+
+	数据的读取
+	InputStream in = res.getBinaryStream(2);
+	File file = new File("1.png");
+	FileOutputStream fos = new FileOutputStream(file);
+	byte[] b = new byte[1024];
+	int length = 0;
+	while ((length = in.read(b))!=-1) {
+	fos.write(b, 0, length);
+	fos.flush();
+	}
+	fos.close();
+	in.close();
+
+
+
+	jdbc事务
+	conn.setAutoCommit(false);//false表示事务为手动提交方式 默认true自动提交
+	conn.commit();提交事务
+	conn.rollback();事务回滚
+	Savepoint sp=conn.setSavepoint("a1”);设置保存点
+	conn.rollback(sp);回退到保存点
+
+	JTA分布式事务
+    	依赖于高级服务器容器，tomcat等都不支持，weblogic等大型高级服务器容器才支持
+   	javax.transaction.UserTransaction tx = 
+   	ctx.lookup("jndiName");
+   	tx.begin();
+   	//connection1,connection2(可能来自不同的数据库)
+    	tx.commit();
+    	//tx.rollback();
+	conn.setTransactionIsolation(Connection.变量);//事务的隔离级别
+
+
+	事务的隔离级别
+	conn.setTransactionIsolation(conn.静态变量)
+
+
+
+
+	可更新的结果集
+	conn.createStatement(resultSetType,resultSetConcurency)
+	resultSetType是设置ResultSet对象的类型可滚动,或者是不可滚动
+
+	resultSetType三个选项：
+	ResultSet.TYPE_FORWARD_ONLY只能向前滚动
+
+	ResultSet.TYPE_SCROLL_INSENSITIVE
+
+	返回的结果集对数据库中的的数据变动是不敏感的。可以这么认为，
+	当拿到结果集时，已经把数据库库中满足条件的所有记录都取了出来
+	，放在缓存中，如果此时有另一个线程将数据库中的数据更改了，
+	也不会影响这个结果集中的数据，因为它用的是缓存中的。
+
+	ResultSet.TYPE_SCROLL_SENSITIVE
+
+	与此对应，它返回的结果集是敏感的，那么是不是意味着拿到结果集后
+	，数据库中的数据变化都会反映到结果集中呢？不是这样的，这里此时
+	拿到的结果集只是某种条件的记录的id，当打印结果集中数据的时候，
+	根据id再临时到数据库中取，那么对于拿到结果集后，数据库中的数据
+	被更新了（update），肯定是会被反映到结果集上的，但是对于插
+	入（insert）操作，由于新插入的记录的id并没有被结果集缓存，所以
+	不会反映到结果集中，对于删除操作（delete），因为数据库中的删除操作
+	只是对被删除的记录做一个标记，使之不被被检索到，实际的数据并没
+	有被删除，而实际缓存的  是id的实际偏移，所以删除操作也不会被反映到结果集上。
+
+	jdbc规范在不同数据库中的实现不同，在mysql中感知不到 数据库中的变化
+	while (res.next()) {
+		System.out.println(
+			res.getObject(1)+" "+
+			res.getObject(2)+" "+
+			res.getObject(3)
+		);
+		Thread.sleep(1000);
+	}
+
+
+	 resultSetConcurency是设置ResultSet对象能够修改的
+	 ResultSet.CONCUR_READ_ONLY   结果集不允许更新(默认)
+	 ResultSet.CONCUR_UPDATABLE   结果集可以更新
+
+	 在遍历结果集的过程中，更新数据，会同步到数据库
+	 while (res.next()) {
+			System.out.println(
+				res.getObject(1)+" "+
+				res.getObject(2)+" "+
+				res.getObject(3)
+			);
+			String str = (String)res.getObject(2);
+			if(str.equals("briup1")){
+				res.updateFloat(3, 9999.0f);
+				res.updateRow();
+			}
+		}
+
+	
+
+	
+	基本的数据库连接池的使用
+	private LinkedList<Connection> pool = new LinkedList<Connection>();
+	public ConnectionPool(){
+		for (int i = 0; i < 10; i++) {
+			pool.addLast(createConn());
+		}
+	}
+	
+	public Connection getConnection(){
+		return this.pool.removeFirst();
+	}
+	
+	public void put(Connection conn){
+		pool.addLast(conn);
+	}
+	进一步优化，保证多个线程用使用时，线程安全，以及当池中连接用完的时候，再想拿需要等
+
+
+	private static int initCount = 10;
+	private static int maxCount = 20;
+	private static int nowCount = 0;
+	private LinkedList<Connection> pool = new LinkedList<Connection>();
+	public ConnectionPool() {
+		for (int i = 0; i < initCount; i++) {
+			pool.addLast(createConn());
+			this.nowCount++;
+		}
+	}
+	public Connection getConnection() throws SQLException {
+		synchronized (pool) {
+			if (pool.size() > 0) {
+				return this.pool.removeFirst();
+			}
+			if (nowCount < maxCount) {
+				nowCount++;
+				return createConn();
+			}
+			System.out.println("剩余连接:"+pool.size());
+			throw new SQLException("没有闲置链接");
+		}
+	}
+	public void put(Connection conn) {
+		pool.addLast(conn);
+	}
+	private Connection createConn() {
+		String url = "jdbc:mysql://localhost:3306/briup?" + "characterEncoding=UTF8";
+		String user = "root";
+		String password = "root";
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conn;
+	}
+
+
+	基本的数据库连接池的使用
+	为什么要有连接池
+	每次连接如果都是新创建出来的，一次连接用完了就释放掉，
+	其实对网络资源比较浪费，因为链接的创建是很占用资源的，如果建立过
+	多的连接会导致内存溢出，此外如果程序异常关闭，从而导致链接不能正
+	常关闭，那么也会有内存泄漏此外，我们希望对已经获取到的链接进行重
+	用，进行限制
+
+	数据库连接池负责分配，管理和释放数据库链接，它允许应用程序重复使
+	用一个现有的数据库连接，而不是每次新建
+
+
+	jdbc的数据库连接池使用javax.sql.DataSource来表示，DataSource
+	只是一个接口，该接口通常由服务器提供实现，也有一些开源组织提供实现
+
+	DBCP数据库连接池 apache 
+	C3P0数据库连接池 OpenSource
+
+
+
+
+	DataSource通常被称为数据源，它包含连接池和连接池管理两个部分，习惯上也经常把DataSource成为连接池
+
+ 	DBCP数据源
+	dbcp是由apache 提供的数据源实现
+
+	1 导入jar commons-dbcp commons-pool commons-logging
+	2 创建DBCP数据源实例
+		BasicDataSource bds = new BasicDataSource();
+	3 数据源指定必须的属性
+		bds.setUsername();
+		........
+	4 从数据源中获取数据库连接
+		bds.getConnection();
+	或者
+	Properties pro = new Properties();
+	pro.load(new FileInputStream("src/dbcpconfig.properties"));
+	BasicDataSource bds = BasicDataSourceFactory.createDataSource(pro);
+	Connection conn = bds.getConnection();
+
+
+	配置文件如下所示：
+	#连接设置
+	driverClassName=com.mysql.jdbc.Driver
+	url=jdbc:mysql://localhost:3306/db_test
+	username=root
+	password=root
+
+	#初始化连接数
+	initialSize=5
+
+	#最大连接数
+	maxActive=5
+
+	#最大空闲连接
+	maxIdle=3
+
+	#最小空闲连接
+	minIdle=2
+
+	#超时等待时间 ms
+	maxWaitMillis=6000
+
+	#jdbc 驱动建立连接时除了user和password以外的其他属性
+	connectionProperties=useUnicode=true;characterEncoding=utf8
+
+	#指定由连接池所创建的连接的自动提交状态
+	defaultAutoCommit=true
+
+	#连接创建的连接是只读状态
+	defaultReadOnly=
+
+	#事务隔离级别
+	#defaultTransactionIsolation=READ_COMMITED
+
+
+	 c3p0数据源
+
+	1 创建c3p0-config.xml配置文件 放在类的路径下
+	<c3p0-config>  
+        <named-config name="mysql"> 
+        	<!-- 指定基本属性-->
+        	<property name="driverClass">com.mysql.jdbc.Driver</property>  
+            <property name="jdbcUrl">jdbc:mysql://localhost:3306/day16</property>  
+            <property name="user">root</property>  
+            <property name="password">root</property>   
+            <!--连接池在无空闲连接可用时一次性创建的新数据库连接数,default : 3-->
+            <property name="acquireIncrement">5</property> 
+            <!-- 初始化连接数量 ,default : 3--> 
+            <property name="initialPoolSize">5</property>  
+            <!-- 连接池中最小的连接数 ,default : 3-->
+            <property name="minPoolSize">5</property>  
+             <!-- 连接池中最大的连接数 default : 15-->
+            <property name="maxPoolSize">5</property>
+            <!-- 连接池所维护的statement的个数-->
+            <property name="maxStatements">25</property>  
+            <!-- 每个连接同时可以使用的statement的个数-->
+            <property name="maxStatementsPerConnection">5</property>  
+        </named-config>  
+   	 </c3p0-config>  
+    	2 ComboPooledDataSource ds = new ComboPooledDataSource("mysql"）
+	参数为配置文件中 某个配置的名字
+
+	3 ds.getConnection();
+
+	
+
+	使用apache DBUtils简介
+
+	commons-dbutils 是apache组织提供一个开源的	JDBC工具类库，它是对jdbc的简单封装，
+	学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能
+
+	1 执行update
+		可以用于insert update delete 
+	QueryRunner qr = new QueryRunner();
+	String sql = "delete from account where id in (?,?)";
+	Connection conn = JDBCUtils.getConn();
+	qr.update(conn, sql, 7,8);
+	
+	JDBCUtils.close(null, null, conn);
+	2 执行query
+	conn = JDBCUtils.getConn();
+	String sql = "select id,name,balance from account where id < ?";
+	Object obj = qr.query(conn, sql, new ResultSetHandler<Object>() {
+		@Override
+		public Object handle(ResultSet rs) throws SQLException {
+			while(rs.next()){
+				System.out.println(
+					rs.getObject(1)+" "+
+					rs.getObject(2)+" "+
+					rs.getObject(3)
+				);
+			}
+			return null;
+		}
+	}, 10);
+
+	3 handler的分类
+	ResultSetHandler
+	指定对结果集的操作方式，较为灵活
+	
+	Beanhandler 把结果集查询到的第一条记录，转化成创建Beanhandler对象是所传入的class参数对应的对象
+
+	BeanListhandler
+	把结果集转化成一个list，该list不是null，但是可能为空 size=0，若干sql语句能查询到对象
+	那么list中存放 创建BeanListhandler时所传入的class参数对应的对象
+
+	MapHandler
+	返回sql对应的第一条记录对应的map对象，key = sql查询的列名不是别名
+	value = 列的值
+
+	MapListHandler
+	返回结果集对应的每一行map对象所组成的list，key = sql查询的列名不是别名
+	value = 列的值
+
+	ScalarHandler
+	返回结果集第一行第一列的值
+
+	4 QueryLoader
+	可以用来加载保存着sql语句的资源文件，使用该类可以把sql语句外置化到文件中，以更好地解耦
+	//路径从src下开始  / = src
+	Map<String, String> sqls = QueryLoader.instance().load("/sql.properties");
+	String sql = sqls.get("select_account");
+	System.out.println(sql);
+
+	sql.properties文件内容
+	select_account=select * from account
+
+
+
+
+
+
+
+
